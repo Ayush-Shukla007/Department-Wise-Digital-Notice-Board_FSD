@@ -1,53 +1,681 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>React Basics</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department-Wise Digital Notice Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            padding: 24px;
+            color: #0f172a;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            transition: all 0.3s ease;
+        }
+
+        .container.dashboard-mode {
+            max-width: 640px;
+        }
+
+        .main-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 36px 32px;
+            box-shadow: 0 20px 35px -8px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+            animation: cardAppear 0.35s ease-out;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+        }
+
+        .header p {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Interactive Department Chips */
+        .chip-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748b;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dept-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .chip {
+            padding: 6px 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .chip:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+
+        .chip.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        /* Live department ticker badge */
+        .dept-live-banner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            color: #1e40af;
+            margin-bottom: 22px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #2563eb;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 22px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 9px 0;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #2563eb;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            color: #0f172a;
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .toggle-password:hover {
+            color: #0f172a;
+        }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            margin-bottom: 22px;
+            color: #64748b;
+        }
+
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .form-options a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            border: none;
+            border-radius: 9px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Post-login interactive notice board preview */
+        .board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .board-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .logout-btn {
+            padding: 6px 14px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .logout-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .notice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .notice-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .notice-card:hover {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            transform: translateX(3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .notice-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .notice-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .tag-urgent {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .tag-academic {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .tag-event {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .notice-date {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .notice-title {
+            font-size: 0.94rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .notice-desc {
+            font-size: 0.82rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-3px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
-
     <div id="root"></div>
 
-    <!-- React -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-
-    <!-- ReactDOM -->
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel -->
+    <!-- React 18 & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
-    
-    function App(){
-        return (
-        <>
-        <p>Welcome to your website</p>
-         <LoginForm/>
-        </>
-        );
-    }
-     function LoginForm(){
-        return (
-            <>
-            <div>
-            <input type="email"  placeholder="email " width="40"/>
-            </div>
-            <div><input type="password" placeholder="password" width="40"/></div>
-            
-        <button>login</button>
-        <button>signup</button>
-        </>
+        const { useState } = React;
 
-        );
-     }
+        const DEPARTMENTS = [
+            { id: 'CSE', name: 'Computer Science (CSE)', count: 4, icon: '💻' },
+            { id: 'IT', name: 'Information Technology (IT)', count: 3, icon: '🌐' },
+            { id: 'ECE', name: 'Electronics (ECE)', count: 2, icon: '⚡' },
+            { id: 'ME', name: 'Mechanical Engg. (ME)', count: 2, icon: '⚙️' },
+            { id: 'T&P', name: 'Placement Cell (T&P)', count: 5, icon: '💼' },
+            { id: 'EXAM', name: 'Exam Cell', count: 3, icon: '📝' }
+        ];
 
+        const SAMPLE_NOTICES = {
+            CSE: [
+                { id: 1, title: 'Final Year Major Project Viva Dates Announced', tag: 'urgent', date: 'Today, 11:30 AM', desc: 'Major project presentations will commence from 24th Nov in Lab 4.' },
+                { id: 2, title: 'National Hackathon 2026 Registration Open', tag: 'event', date: 'Yesterday', desc: 'Teams of 3-4 members can register before Friday. Cash prizes up to ₹50,000.' },
+                { id: 3, title: 'DSA Lab 3 Submission Deadline Extension', tag: 'academic', date: '16 Nov', desc: 'All CSE Semester 3 students can submit assignment 3 by midnight.' }
+            ],
+            IT: [
+                { id: 1, title: 'Cloud Computing Workshop by AWS Experts', tag: 'event', date: 'Today, 09:00 AM', desc: 'Hands-on session on AWS Lambda and S3 in Seminar Hall 2.' },
+                { id: 2, title: 'Web Development Quiz Schedule', tag: 'academic', date: 'Yesterday', desc: 'Online quiz will be conducted through the campus portal on Monday.' }
+            ],
+            ECE: [
+                { id: 1, title: 'Embedded Systems Workshop Kits Distribution', tag: 'academic', date: 'Today', desc: 'Collect your Arduino and STM32 kits from Hardware Lab 2.' }
+            ],
+            ME: [
+                { id: 1, title: 'Industrial Visit to Automobile Plant', tag: 'event', date: 'Today', desc: 'Bus departs from the main gate at 8:00 AM. ID card mandatory.' }
+            ],
+            'T&P': [
+                { id: 1, title: 'Google & Microsoft Campus Drive Registrations', tag: 'urgent', date: 'Just Now', desc: 'Eligible branches: CSE, IT, ECE with CGPA > 7.5. Apply before 5 PM.' },
+                { id: 2, title: 'Resume Building & Mock Interview Session', tag: 'event', date: 'Yesterday', desc: 'Conducted by alumni working at top MNCs this Saturday.' }
+            ],
+            EXAM: [
+                { id: 1, title: 'Odd Semester End-Term Schedule Released', tag: 'urgent', date: 'Today', desc: 'Download the official verified PDF timetable from the notice board.' },
+                { id: 2, title: 'Admit Card Distribution & Verification', tag: 'academic', date: '17 Nov', desc: 'Collect signed admit cards from departmental coordinators.' }
+            ]
+        };
 
-   const container = document.querySelector('#root');
+        function App() {
+            const [mode, setMode] = useState('login'); // 'login' or 'signup'
+            const [selectedDept, setSelectedDept] = useState('CSE');
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [fullName, setFullName] = useState('');
+            const [showPassword, setShowPassword] = useState(false);
+            const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [filterTag, setFilterTag] = useState('all');
 
-        ReactDOM.createRoot(container).render(<App/>);
+            const currentDeptObj = DEPARTMENTS.find(d => d.id === selectedDept) || DEPARTMENTS[0];
+            const deptNotices = SAMPLE_NOTICES[selectedDept] || SAMPLE_NOTICES['CSE'];
 
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (!email || !password) {
+                    alert('Please enter your credentials.');
+                    return;
+                }
+                setIsLoggedIn(true);
+            };
+
+            const handleLogout = () => {
+                setIsLoggedIn(false);
+                setPassword('');
+            };
+
+            const filteredNotices = filterTag === 'all' 
+                ? deptNotices 
+                : deptNotices.filter(n => n.tag === filterTag);
+
+            return (
+                <div className={`container ${isLoggedIn ? 'dashboard-mode' : ''}`}>
+                    <div className="main-card">
+                        {!isLoggedIn ? (
+                            <>
+                                <div className="header">
+                                    <h1>Digital Notice Board</h1>
+                                    <p>Select your department to view verified campus circulars</p>
+                                </div>
+
+                                {/* Quick Department Selector Chips */}
+                                <div className="chip-label">
+                                    <span>Choose Department</span>
+                                    <span>{currentDeptObj.count} updates today</span>
+                                </div>
+                                <div className="dept-chips">
+                                    {DEPARTMENTS.map((dept) => (
+                                        <button
+                                            key={dept.id}
+                                            type="button"
+                                            className={`chip ${selectedDept === dept.id ? 'active' : ''}`}
+                                            onClick={() => setSelectedDept(dept.id)}
+                                        >
+                                            {dept.icon} {dept.id}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Live interactive department indicator */}
+                                <div className="dept-live-banner">
+                                    <div className="pulse-dot"></div>
+                                    <span>
+                                        Connected to <strong>{currentDeptObj.name}</strong> feed
+                                    </span>
+                                </div>
+
+                                {/* Sign In / Sign Up Tabs */}
+                                <div className="tabs">
+                                    <button 
+                                        type="button"
+                                        className={`tab-btn ${mode === 'login' ? 'active' : ''}`}
+                                        onClick={() => setMode('login')}
+                                    >
+                                        Sign In
+                                    </button>
+                                    <button 
+                                        type="button"
+                                        className={`tab-btn ${mode === 'signup' ? 'active' : ''}`}
+                                        onClick={() => setMode('signup')}
+                                    >
+                                        Create Account
+                                    </button>
+                                </div>
+
+                                <form onSubmit={handleLogin}>
+                                    {mode === 'signup' && (
+                                        <div className="form-group">
+                                            <label>Full Name</label>
+                                            <input
+                                                type="text"
+                                                placeholder="e.g. Ayush Shukla"
+                                                value={fullName}
+                                                onChange={(e) => setFullName(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="form-group">
+                                        <label>College Email or Student ID</label>
+                                        <input
+                                            type="email"
+                                            placeholder="ayush@college.edu"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Password</label>
+                                        <div className="input-wrapper">
+                                            <input
+                                                type={showPassword ? 'text' : 'password'}
+                                                placeholder="••••••••"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                required
+                                            />
+                                            <button 
+                                                type="button" 
+                                                className="toggle-password"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                {showPassword ? 'Hide' : 'Show'}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {mode === 'login' && (
+                                        <div className="form-options">
+                                            <label>
+                                                <input type="checkbox" defaultChecked /> Remember me
+                                            </label>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); alert('Password reset link sent to your college ID.'); }}>
+                                                Forgot password?
+                                            </a>
+                                        </div>
+                                    )}
+
+                                    <button type="submit" className="submit-btn">
+                                        {mode === 'login' ? `Open ${selectedDept} Notice Board` : 'Complete Registration'}
+                                        <span>→</span>
+                                    </button>
+                                </form>
+                            </>
+                        ) : (
+                            /* Live Interactive Notice Board View on Login */
+                            <div>
+                                <div className="board-header">
+                                    <div>
+                                        <h2>{currentDeptObj.name}</h2>
+                                        <p style={{ fontSize: '0.82rem', color: '#64748b', marginTop: '2px' }}>
+                                            Logged in as <strong>{email}</strong>
+                                        </p>
+                                    </div>
+                                    <button className="logout-btn" onClick={handleLogout}>
+                                        Sign Out
+                                    </button>
+                                </div>
+
+                                {/* Department switch chips inside dashboard */}
+                                <div className="chip-label">Switch Department Feed</div>
+                                <div className="dept-chips">
+                                    {DEPARTMENTS.map((dept) => (
+                                        <button
+                                            key={dept.id}
+                                            type="button"
+                                            className={`chip ${selectedDept === dept.id ? 'active' : ''}`}
+                                            onClick={() => { setSelectedDept(dept.id); setFilterTag('all'); }}
+                                        >
+                                            {dept.icon} {dept.id}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Filter tags */}
+                                <div style={{ display: 'flex', gap: '8px', margin: '14px 0 8px 0' }}>
+                                    {['all', 'urgent', 'academic', 'event'].map((tag) => (
+                                        <button
+                                            key={tag}
+                                            type="button"
+                                            onClick={() => setFilterTag(tag)}
+                                            style={{
+                                                padding: '4px 10px',
+                                                borderRadius: '6px',
+                                                border: '1px solid #e2e8f0',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 600,
+                                                textTransform: 'capitalize',
+                                                cursor: 'pointer',
+                                                background: filterTag === tag ? '#0f172a' : '#ffffff',
+                                                color: filterTag === tag ? '#ffffff' : '#64748b'
+                                            }}
+                                        >
+                                            {tag}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="notice-list">
+                                    {filteredNotices.length > 0 ? (
+                                        filteredNotices.map((notice) => (
+                                            <div key={notice.id} className="notice-card" onClick={() => alert(`Notice details: "${notice.title}"`)}>
+                                                <div className="notice-meta">
+                                                    <span className={`notice-tag tag-${notice.tag}`}>{notice.tag}</span>
+                                                    <span className="notice-date">{notice.date}</span>
+                                                </div>
+                                                <div className="notice-title">{notice.title}</div>
+                                                <div className="notice-desc">{notice.desc}</div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '24px', color: '#94a3b8', fontSize: '0.85rem' }}>
+                                            No notices found in this category.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        const container = document.getElementById('root');
+        ReactDOM.createRoot(container).render(<App />);
     </script>
-
 </body>
 </html>
