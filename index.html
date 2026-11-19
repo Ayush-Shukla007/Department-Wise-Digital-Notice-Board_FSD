@@ -53,7 +53,7 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* LEFT COLUMN: Clean Form Area */
+        /* LEFT COLUMN: Form Area */
         .auth-form-side {
             flex: 1.15;
             padding: 48px 52px;
@@ -107,7 +107,7 @@
             border: 1px solid #a7f3d0;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .live-dot {
@@ -209,6 +209,9 @@
         }
 
         .dept-badge-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             padding: 6px 13px;
             background: #f8fafc;
             border: 1.5px solid #e2e8f0;
@@ -231,6 +234,14 @@
             border-color: #2563eb;
             color: #ffffff;
             box-shadow: 0 3px 8px rgba(37, 99, 235, 0.28);
+        }
+
+        .dept-badge-btn svg {
+            transition: stroke 0.15s;
+        }
+
+        .dept-badge-btn.active svg {
+            stroke: #ffffff;
         }
 
         /* Form Inputs */
@@ -270,6 +281,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .input-box input:focus ~ .input-icon {
+            color: #2563eb;
         }
 
         .show-pass-btn {
@@ -362,7 +377,7 @@
             text-decoration: underline;
         }
 
-        /* RIGHT COLUMN: Clean Showcase Visual */
+        /* RIGHT COLUMN: Showcase Hero Panel */
         .auth-showcase-side {
             flex: 1;
             background: linear-gradient(145deg, #1e3a8a 0%, #2563eb 55%, #4338ca 100%);
@@ -431,7 +446,7 @@
             line-height: 1.55;
         }
 
-        /* Clean Features Showcase (Without the urgent/drive/academic cards) */
+        /* Clean Features Showcase */
         .features-clean-panel {
             position: relative;
             z-index: 2;
@@ -461,8 +476,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
             flex-shrink: 0;
+            color: #ffffff;
         }
 
         .feature-text h4 {
@@ -613,13 +628,105 @@
     <script type="text/babel">
         const { useState } = React;
 
+        /* SVG ICONS LIBRARY */
+        const IconLaptop = ({ size = 15, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="12" rx="2"/>
+                <line x1="2" y1="20" x2="22" y2="20"/>
+            </svg>
+        );
+
+        const IconGlobe = ({ size = 15, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+        );
+
+        const IconCpu = ({ size = 15, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                <rect x="9" y="9" width="6" height="6"/>
+                <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+                <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+                <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/>
+                <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/>
+            </svg>
+        );
+
+        const IconGear = ({ size = 15, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+        );
+
+        const IconBriefcase = ({ size = 15, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+        );
+
+        const IconDocument = ({ size = 15, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+        );
+
+        const IconBuilding = ({ size = 18, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 21h18"/>
+                <path d="M5 21V7l7-4 7 4v14"/>
+                <path d="M9 10a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11H9V10z"/>
+            </svg>
+        );
+
+        const IconUser = ({ size = 18, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+        );
+
+        const IconMail = ({ size = 18, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+        );
+
+        const IconLock = ({ size = 18, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+        );
+
+        const IconZap = ({ size = 18, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        );
+
+        const IconDevice = ({ size = 18, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+        );
+
         const DEPARTMENTS = [
-            { id: 'CSE', name: 'Computer Science (CSE)', count: 4, icon: '💻' },
-            { id: 'IT', name: 'Information Tech (IT)', count: 3, icon: '🌐' },
-            { id: 'ECE', name: 'Electronics (ECE)', count: 2, icon: '⚡' },
-            { id: 'ME', name: 'Mechanical Engg. (ME)', count: 3, icon: '⚙️' },
-            { id: 'T&P', name: 'Placement Cell', count: 5, icon: '💼' },
-            { id: 'EXAM', name: 'Exam Cell', count: 3, icon: '📝' }
+            { id: 'CSE', name: 'Computer Science (CSE)', count: 4, Icon: IconLaptop },
+            { id: 'IT', name: 'Information Tech (IT)', count: 3, Icon: IconGlobe },
+            { id: 'ECE', name: 'Electronics (ECE)', count: 2, Icon: IconCpu },
+            { id: 'ME', name: 'Mechanical Engg. (ME)', count: 3, Icon: IconGear },
+            { id: 'T&P', name: 'Placement Cell', count: 5, Icon: IconBriefcase },
+            { id: 'EXAM', name: 'Exam Cell', count: 3, Icon: IconDocument }
         ];
 
         const SAMPLE_NOTICES = {
@@ -679,7 +786,7 @@
                 <div className="auth-wrapper">
                     {!isLoggedIn ? (
                         <>
-                            {/* LEFT SIDE: Clean Dribbble-Style Form Panel */}
+                            {/* LEFT SIDE: Clean Form Panel */}
                             <div className="auth-form-side">
                                 <div>
                                     <div className="brand-bar">
@@ -694,7 +801,7 @@
                                     </div>
 
                                     <div className="form-heading-area">
-                                        <h1>{mode === 'login' ? 'Welcome Back 👋' : 'Create Account 🚀'}</h1>
+                                        <h1>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h1>
                                         <p>
                                             {mode === 'login' 
                                                 ? 'Enter your institutional credentials to view circulars.'
@@ -722,7 +829,8 @@
                                             className="sso-btn"
                                             onClick={() => handleFastSSO('Portal')}
                                         >
-                                            🏛️ College Portal
+                                            <IconBuilding size={17} color="#2563eb" />
+                                            College Portal
                                         </button>
                                     </div>
 
@@ -730,7 +838,7 @@
                                         <span>or continue with email</span>
                                     </div>
 
-                                    {/* Department Chips */}
+                                    {/* Department Chips with Inline SVG */}
                                     <div className="field-label-row">
                                         <span className="field-label">Select Department</span>
                                         <span style={{ fontSize: '0.78rem', color: '#2563eb', fontWeight: '700' }}>
@@ -738,16 +846,21 @@
                                         </span>
                                     </div>
                                     <div className="dept-chips-container">
-                                        {DEPARTMENTS.map(d => (
-                                            <button
-                                                key={d.id}
-                                                type="button"
-                                                className={`dept-badge-btn ${selectedDept === d.id ? 'active' : ''}`}
-                                                onClick={() => setSelectedDept(d.id)}
-                                            >
-                                                {d.icon} {d.id}
-                                            </button>
-                                        ))}
+                                        {DEPARTMENTS.map(d => {
+                                            const DeptIcon = d.Icon;
+                                            const isActive = selectedDept === d.id;
+                                            return (
+                                                <button
+                                                    key={d.id}
+                                                    type="button"
+                                                    className={`dept-badge-btn ${isActive ? 'active' : ''}`}
+                                                    onClick={() => setSelectedDept(d.id)}
+                                                >
+                                                    <DeptIcon size={14} color={isActive ? "#ffffff" : "#475569"} />
+                                                    {d.id}
+                                                </button>
+                                            );
+                                        })}
                                     </div>
 
                                     <form onSubmit={handleAuth}>
@@ -757,7 +870,9 @@
                                                     <span className="field-label">Full Name</span>
                                                 </div>
                                                 <div className="input-box">
-                                                    <span className="input-icon">👤</span>
+                                                    <span className="input-icon">
+                                                        <IconUser size={17} color="#94a3b8" />
+                                                    </span>
                                                     <input 
                                                         type="text" 
                                                         placeholder="Ayush Shukla" 
@@ -774,7 +889,9 @@
                                                 <span className="field-label">Email Address</span>
                                             </div>
                                             <div className="input-box">
-                                                <span className="input-icon">✉️</span>
+                                                <span className="input-icon">
+                                                    <IconMail size={17} color="#94a3b8" />
+                                                </span>
                                                 <input 
                                                     type="email" 
                                                     placeholder="ayush@college.edu" 
@@ -790,7 +907,9 @@
                                                 <span className="field-label">Password</span>
                                             </div>
                                             <div className="input-box">
-                                                <span className="input-icon">🔒</span>
+                                                <span className="input-icon">
+                                                    <IconLock size={17} color="#94a3b8" />
+                                                </span>
                                                 <input 
                                                     type={showPassword ? 'text' : 'password'} 
                                                     placeholder="••••••••" 
@@ -841,7 +960,8 @@
 
                                 <div className="hero-top">
                                     <div className="hero-badge-pill">
-                                        <span>⚡ Live Campus Network</span>
+                                        <IconZap size={13} color="#ffffff" />
+                                        <span>Live Campus Network</span>
                                     </div>
                                     <h2>Department-Wise<br/>Digital Notice Board</h2>
                                     <p>
@@ -849,10 +969,12 @@
                                     </p>
                                 </div>
 
-                                {/* Clean Feature Highlights (No urgent/drive/academic tags) */}
+                                {/* Clean Feature Highlights with SVGs */}
                                 <div className="features-clean-panel">
                                     <div className="feature-item">
-                                        <div className="feature-icon-box">🏛️</div>
+                                        <div className="feature-icon-box">
+                                            <IconBuilding size={20} color="#ffffff" />
+                                        </div>
                                         <div className="feature-text">
                                             <h4>Department Categorization</h4>
                                             <p>Filter announcements by branch (CSE, IT, ECE, ME, Civil) instantly.</p>
@@ -860,7 +982,9 @@
                                     </div>
 
                                     <div className="feature-item">
-                                        <div className="feature-icon-box">⚡</div>
+                                        <div className="feature-icon-box">
+                                            <IconZap size={20} color="#ffffff" />
+                                        </div>
                                         <div className="feature-text">
                                             <h4>Real-Time Announcements</h4>
                                             <p>Direct updates from Dean, Examination Cell, and Training & Placement.</p>
@@ -868,7 +992,9 @@
                                     </div>
 
                                     <div className="feature-item">
-                                        <div className="feature-icon-box">📱</div>
+                                        <div className="feature-icon-box">
+                                            <IconDevice size={20} color="#ffffff" />
+                                        </div>
                                         <div className="feature-text">
                                             <h4>Zero Paper Wastage</h4>
                                             <p>Eco-friendly, digital-first communication across all smart displays.</p>
@@ -910,16 +1036,21 @@
                                 <span className="field-label">Switch Department Feed</span>
                             </div>
                             <div className="dept-chips-container" style={{ marginBottom: '24px' }}>
-                                {DEPARTMENTS.map(d => (
-                                    <button
-                                        key={d.id}
-                                        type="button"
-                                        className={`dept-badge-btn ${selectedDept === d.id ? 'active' : ''}`}
-                                        onClick={() => setSelectedDept(d.id)}
-                                    >
-                                        {d.icon} {d.id}
-                                    </button>
-                                ))}
+                                {DEPARTMENTS.map(d => {
+                                    const DeptIcon = d.Icon;
+                                    const isActive = selectedDept === d.id;
+                                    return (
+                                        <button
+                                            key={d.id}
+                                            type="button"
+                                            className={`dept-badge-btn ${isActive ? 'active' : ''}`}
+                                            onClick={() => setSelectedDept(d.id)}
+                                        >
+                                            <DeptIcon size={14} color={isActive ? "#ffffff" : "#475569"} />
+                                            {d.id}
+                                        </button>
+                                    );
+                                })}
                             </div>
 
                             <div className="feed-grid">
