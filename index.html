@@ -27,33 +27,33 @@
             justify-content: center;
             background-color: #f1f5f9;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.09) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.07) 0px, transparent 50%),
                 radial-gradient(at 50% 50%, rgba(241, 245, 249, 1) 0px, transparent 100%);
             padding: 24px;
             color: #0f172a;
         }
 
-        /* Dribbble-Style Two-Column Auth Container */
+        /* Two-Column Auth Card */
         .auth-wrapper {
             width: 100%;
             max-width: 1060px;
-            min-height: 660px;
+            min-height: 640px;
             background: #ffffff;
             border-radius: 28px;
             box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 1px rgba(0, 0, 0, 0.05);
             display: flex;
             overflow: hidden;
             border: 1px solid rgba(226, 232, 240, 0.85);
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(14px) scale(0.99); }
+            from { opacity: 0; transform: translateY(12px) scale(0.99); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* LEFT COLUMN: Clean, Elegant Form Area */
+        /* LEFT COLUMN: Clean Form Area */
         .auth-form-side {
             flex: 1.15;
             padding: 48px 52px;
@@ -67,7 +67,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
+            margin-bottom: 26px;
         }
 
         .brand-logo {
@@ -118,7 +118,7 @@
         }
 
         .form-heading-area {
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         .form-heading-area h1 {
@@ -134,11 +134,11 @@
             color: #64748b;
         }
 
-        /* Fast SSO / Direct Access Buttons */
+        /* Direct SSO Buttons */
         .sso-buttons {
             display: flex;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .sso-btn {
@@ -168,7 +168,7 @@
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 18px 0;
+            margin: 16px 0;
             color: #94a3b8;
             font-size: 0.78rem;
             font-weight: 500;
@@ -235,7 +235,7 @@
 
         /* Form Inputs */
         .form-row {
-            margin-bottom: 16px;
+            margin-bottom: 15px;
         }
 
         .input-box {
@@ -272,10 +272,6 @@
             justify-content: center;
         }
 
-        .input-box input:focus ~ .input-icon {
-            color: #2563eb;
-        }
-
         .show-pass-btn {
             position: absolute;
             right: 12px;
@@ -298,7 +294,7 @@
             justify-content: space-between;
             font-size: 0.83rem;
             color: #64748b;
-            margin: 18px 0 22px 0;
+            margin: 16px 0 22px 0;
         }
 
         .row-options label {
@@ -348,7 +344,7 @@
 
         .form-bottom-link {
             text-align: center;
-            margin-top: 22px;
+            margin-top: 20px;
             font-size: 0.86rem;
             color: #64748b;
         }
@@ -366,7 +362,7 @@
             text-decoration: underline;
         }
 
-        /* RIGHT COLUMN: Dribbble-Grade Visual Hero Panel */
+        /* RIGHT COLUMN: Clean Showcase Visual */
         .auth-showcase-side {
             flex: 1;
             background: linear-gradient(145deg, #1e3a8a 0%, #2563eb 55%, #4338ca 100%);
@@ -379,7 +375,6 @@
             overflow: hidden;
         }
 
-        /* Abstract glowing backdrop shapes */
         .showcase-circle-1 {
             position: absolute;
             top: -50px;
@@ -423,79 +418,67 @@
         }
 
         .hero-top h2 {
-            font-size: 1.95rem;
+            font-size: 2rem;
             font-weight: 800;
             line-height: 1.25;
             letter-spacing: -0.025em;
         }
 
         .hero-top p {
-            margin-top: 10px;
-            font-size: 0.94rem;
+            margin-top: 12px;
+            font-size: 0.95rem;
             color: #dbeafe;
-            line-height: 1.5;
+            line-height: 1.55;
         }
 
-        /* Floating Interactive Notice Cards */
-        .glass-cards-stack {
+        /* Clean Features Showcase (Without the urgent/drive/academic cards) */
+        .features-clean-panel {
             position: relative;
             z-index: 2;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 24px 22px;
+            margin: 28px 0;
             display: flex;
             flex-direction: column;
-            gap: 13px;
-            margin: 28px 0;
+            gap: 16px;
         }
 
-        .glass-notice-card {
-            background: rgba(255, 255, 255, 0.14);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            border-radius: 16px;
-            padding: 14px 18px;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-            transition: all 0.2s ease;
-        }
-
-        .glass-notice-card:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .card-row-meta {
+        .feature-item {
             display: flex;
-            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .feature-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: flex;
             align-items: center;
-            margin-bottom: 6px;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
         }
 
-        .card-branch-name {
-            font-size: 0.74rem;
+        .feature-text h4 {
+            font-size: 0.96rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #bfdbfe;
-        }
-
-        .card-priority-tag {
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 12px;
-            text-transform: uppercase;
-        }
-
-        .tag-urgent { background: #fee2e2; color: #b91c1c; }
-        .tag-drive { background: #dcfce7; color: #15803d; }
-        .tag-academic { background: #e0e7ff; color: #3730a3; }
-
-        .card-title-text {
-            font-size: 0.92rem;
-            font-weight: 600;
             color: #ffffff;
-            line-height: 1.35;
+            margin-bottom: 2px;
         }
 
-        /* Bottom stats / social proof */
+        .feature-text p {
+            font-size: 0.82rem;
+            color: #bfdbfe;
+            line-height: 1.4;
+        }
+
+        /* Bottom stats */
         .showcase-footer {
             position: relative;
             z-index: 2;
@@ -532,16 +515,16 @@
 
         .avatar-info-text {
             margin-left: 10px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: #dbeafe;
-            line-height: 1.3;
+            line-height: 1.35;
         }
 
         .avatar-info-text strong {
             color: #ffffff;
         }
 
-        /* Post-Login Interactive Feed Screen */
+        /* Post-Login Screen */
         .feed-screen-wrapper {
             width: 100%;
             padding: 44px 50px;
@@ -641,27 +624,27 @@
 
         const SAMPLE_NOTICES = {
             CSE: [
-                { id: 1, title: 'Final Year Major Project Viva Dates Announced', tag: 'urgent', date: 'Today, 11:30 AM', desc: 'Presentations commence next Monday in Hardware Lab 4. Signed project reports mandatory.' },
-                { id: 2, title: 'Smart India Hackathon 2026 Internal Screening', tag: 'academic', date: 'Yesterday', desc: 'Shortlisted teams must report to Room 204 with functional prototype demos.' },
-                { id: 3, title: 'Data Structures & Algorithms Lab 4 Solution', tag: 'academic', date: '16 Nov', desc: 'Code template uploaded on the campus portal. Submit by midnight.' }
+                { id: 1, title: 'Final Year Major Project Viva Dates Announced', date: 'Today, 11:30 AM', desc: 'Presentations commence next Monday in Hardware Lab 4. Signed project reports mandatory.' },
+                { id: 2, title: 'Smart India Hackathon 2026 Internal Screening', date: 'Yesterday', desc: 'Shortlisted teams must report to Room 204 with functional prototype demos.' },
+                { id: 3, title: 'Data Structures & Algorithms Lab 4 Solution', date: '16 Nov', desc: 'Code template uploaded on the campus portal. Submit by midnight.' }
             ],
             IT: [
-                { id: 1, title: 'AWS Cloud Architecture Hands-On Workshop', tag: 'drive', date: 'Today, 09:00 AM', desc: 'Free certification vouchers for top 15 performers in the quiz.' },
-                { id: 2, title: 'Full Stack Development Lab Submission', tag: 'academic', date: 'Yesterday', desc: 'React 18 assignment code reviews will be conducted tomorrow.' }
+                { id: 1, title: 'AWS Cloud Architecture Hands-On Workshop', date: 'Today, 09:00 AM', desc: 'Free certification vouchers for top 15 performers in the quiz.' },
+                { id: 2, title: 'Full Stack Development Lab Submission', date: 'Yesterday', desc: 'React 18 assignment code reviews will be conducted tomorrow.' }
             ],
             ECE: [
-                { id: 1, title: 'VLSI Design & Embedded Systems Training', tag: 'academic', date: 'Today', desc: 'Special hands-on session with industry mentors from Texas Instruments.' }
+                { id: 1, title: 'VLSI Design & Embedded Systems Training', date: 'Today', desc: 'Special hands-on session with industry mentors from Texas Instruments.' }
             ],
             ME: [
-                { id: 1, title: 'Annual Industrial Visit to Hero MotoCorp', tag: 'drive', date: 'Today', desc: 'Buses depart 7:30 AM sharp from the central quadrangle.' }
+                { id: 1, title: 'Annual Industrial Visit to Hero MotoCorp', date: 'Today', desc: 'Buses depart 7:30 AM sharp from the central quadrangle.' }
             ],
             'T&P': [
-                { id: 1, title: 'Microsoft & Google Direct Campus Drive 2026', tag: 'urgent', date: 'Just Now', desc: 'Eligible: CSE, IT, ECE. Minimum CGPA: 7.5. Application deadline: Today 5 PM.' },
-                { id: 2, title: 'Mock Technical Interviews with Alumni', tag: 'drive', date: 'Yesterday', desc: 'Slots available for 1-on-1 resume review sessions this Saturday.' }
+                { id: 1, title: 'Microsoft & Google Direct Campus Drive 2026', date: 'Just Now', desc: 'Eligible: CSE, IT, ECE. Minimum CGPA: 7.5. Application deadline: Today 5 PM.' },
+                { id: 2, title: 'Mock Technical Interviews with Alumni', date: 'Yesterday', desc: 'Slots available for 1-on-1 resume review sessions this Saturday.' }
             ],
             EXAM: [
-                { id: 1, title: 'End-Term Odd Semester Timetable Published', tag: 'urgent', date: 'Today', desc: 'Download verified signed examination scheme. Admit cards available on portal.' },
-                { id: 2, title: 'Backlog Examination Registration Form Deadline', tag: 'urgent', date: '17 Nov', desc: 'Fee clearance required before registering at the examination counter.' }
+                { id: 1, title: 'End-Term Odd Semester Timetable Published', date: 'Today', desc: 'Download verified signed examination scheme. Admit cards available on portal.' },
+                { id: 2, title: 'Backlog Examination Registration Form Deadline', date: '17 Nov', desc: 'Fee clearance required before registering at the examination counter.' }
             ]
         };
 
@@ -673,7 +656,6 @@
             const [fullName, setFullName] = useState('');
             const [showPassword, setShowPassword] = useState(false);
             const [isLoggedIn, setIsLoggedIn] = useState(false);
-            const [activeFilter, setActiveFilter] = useState('all');
 
             const currentDept = DEPARTMENTS.find(d => d.id === selectedDept) || DEPARTMENTS[0];
             const currentNotices = SAMPLE_NOTICES[selectedDept] || SAMPLE_NOTICES['CSE'];
@@ -692,10 +674,6 @@
                 setPassword('password123');
                 setIsLoggedIn(true);
             };
-
-            const filteredNotices = activeFilter === 'all'
-                ? currentNotices
-                : currentNotices.filter(n => n.tag === activeFilter);
 
             return (
                 <div className="auth-wrapper">
@@ -724,7 +702,7 @@
                                         </p>
                                     </div>
 
-                                    {/* Direct Fast SSO / Institutional Sign In */}
+                                    {/* Direct Fast SSO */}
                                     <div className="sso-buttons">
                                         <button 
                                             type="button" 
@@ -856,7 +834,7 @@
                                 </div>
                             </div>
 
-                            {/* RIGHT SIDE: Visual Showcase Hero Panel */}
+                            {/* RIGHT SIDE: Clean Showcase Hero Panel */}
                             <div className="auth-showcase-side">
                                 <div className="showcase-circle-1"></div>
                                 <div className="showcase-circle-2"></div>
@@ -867,34 +845,34 @@
                                     </div>
                                     <h2>Department-Wise<br/>Digital Notice Board</h2>
                                     <p>
-                                        Direct access to verified circulars, exam schedules, and placement drives across all campus branches.
+                                        Direct access to verified circulars, exam schedules, and placement updates across all campus branches.
                                     </p>
                                 </div>
 
-                                {/* Floating Glass Cards from References */}
-                                <div className="glass-cards-stack">
-                                    <div className="glass-notice-card">
-                                        <div className="card-row-meta">
-                                            <span className="card-branch-name">Examination Cell</span>
-                                            <span className="card-priority-tag tag-urgent">Urgent</span>
+                                {/* Clean Feature Highlights (No urgent/drive/academic tags) */}
+                                <div className="features-clean-panel">
+                                    <div className="feature-item">
+                                        <div className="feature-icon-box">🏛️</div>
+                                        <div className="feature-text">
+                                            <h4>Department Categorization</h4>
+                                            <p>Filter announcements by branch (CSE, IT, ECE, ME, Civil) instantly.</p>
                                         </div>
-                                        <div className="card-title-text">End-Term Examination Schedule Released</div>
                                     </div>
 
-                                    <div className="glass-notice-card">
-                                        <div className="card-row-meta">
-                                            <span className="card-branch-name">Placement Cell</span>
-                                            <span className="card-priority-tag tag-drive">Live Drive</span>
+                                    <div className="feature-item">
+                                        <div className="feature-icon-box">⚡</div>
+                                        <div className="feature-text">
+                                            <h4>Real-Time Announcements</h4>
+                                            <p>Direct updates from Dean, Examination Cell, and Training & Placement.</p>
                                         </div>
-                                        <div className="card-title-text">Microsoft & Google Campus Recruitment 2026</div>
                                     </div>
 
-                                    <div className="glass-notice-card">
-                                        <div className="card-row-meta">
-                                            <span className="card-branch-name">{currentDept.name}</span>
-                                            <span className="card-priority-tag tag-academic">Academic</span>
+                                    <div className="feature-item">
+                                        <div className="feature-icon-box">📱</div>
+                                        <div className="feature-text">
+                                            <h4>Zero Paper Wastage</h4>
+                                            <p>Eco-friendly, digital-first communication across all smart displays.</p>
                                         </div>
-                                        <div className="card-title-text">{currentNotices[0]?.title || 'Department Notice'}</div>
                                     </div>
                                 </div>
 
@@ -931,58 +909,26 @@
                             <div className="field-label-row" style={{ marginBottom: '10px' }}>
                                 <span className="field-label">Switch Department Feed</span>
                             </div>
-                            <div className="dept-chips-container" style={{ marginBottom: '20px' }}>
+                            <div className="dept-chips-container" style={{ marginBottom: '24px' }}>
                                 {DEPARTMENTS.map(d => (
                                     <button
                                         key={d.id}
                                         type="button"
                                         className={`dept-badge-btn ${selectedDept === d.id ? 'active' : ''}`}
-                                        onClick={() => { setSelectedDept(d.id); setActiveFilter('all'); }}
+                                        onClick={() => setSelectedDept(d.id)}
                                     >
                                         {d.icon} {d.id}
                                     </button>
                                 ))}
                             </div>
 
-                            {/* Filters */}
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                                {['all', 'urgent', 'academic', 'drive'].map(f => (
-                                    <button
-                                        key={f}
-                                        type="button"
-                                        onClick={() => setActiveFilter(f)}
-                                        style={{
-                                            padding: '5px 12px',
-                                            borderRadius: '8px',
-                                            border: '1px solid #e2e8f0',
-                                            fontSize: '0.78rem',
-                                            fontWeight: 600,
-                                            textTransform: 'capitalize',
-                                            cursor: 'pointer',
-                                            background: activeFilter === f ? '#0f172a' : '#ffffff',
-                                            color: activeFilter === f ? '#ffffff' : '#475569'
-                                        }}
-                                    >
-                                        {f}
-                                    </button>
-                                ))}
-                            </div>
-
                             <div className="feed-grid">
-                                {filteredNotices.length > 0 ? (
-                                    filteredNotices.map(n => (
+                                {currentNotices.length > 0 ? (
+                                    currentNotices.map(n => (
                                         <div key={n.id} className="feed-single-card" onClick={() => alert(`"${n.title}"\n\n${n.desc}`)}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                                <span style={{
-                                                    fontSize: '0.7rem',
-                                                    fontWeight: 700,
-                                                    padding: '3px 8px',
-                                                    borderRadius: '6px',
-                                                    textTransform: 'uppercase',
-                                                    background: n.tag === 'urgent' ? '#fee2e2' : n.tag === 'drive' ? '#dcfce7' : '#eff6ff',
-                                                    color: n.tag === 'urgent' ? '#b91c1c' : n.tag === 'drive' ? '#15803d' : '#1d4ed8'
-                                                }}>
-                                                    {n.tag}
+                                                <span style={{ fontSize: '0.78rem', fontWeight: '700', color: '#2563eb' }}>
+                                                    {currentDept.id}
                                                 </span>
                                                 <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{n.date}</span>
                                             </div>
@@ -996,7 +942,7 @@
                                     ))
                                 ) : (
                                     <div style={{ textAlign: 'center', gridColumn: '1/-1', padding: '30px', color: '#94a3b8' }}>
-                                        No circulars found in this category.
+                                        No circulars found.
                                     </div>
                                 )}
                             </div>
