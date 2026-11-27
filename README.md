@@ -135,7 +135,7 @@ This repository includes a [`render.yaml`](render.yaml) Blueprint configured for
 - **Institution:** ABESEC Ghaziabad
 - **Developed & Maintained By:**
   - **Ayush Shukla** — Roll No: `2400320100353` (CSE) | GitHub: [@Ayush-Shukla007](https://github.com/Ayush-Shukla007)
-  - **Riya Baliyaan** — Roll No: `2400320310143` (ECE)
+  - **Riya Baliyaan** — Roll No: `2400320310143` (CSE)
 - **Team:** Full Stack Development Team
 - **Project Repository:** [Department-Wise-Digital-Notice-Board_FSD](https://github.com/Ayush-Shukla007/Department-Wise-Digital-Notice-Board_FSD)
 
