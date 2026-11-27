@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Department-Wise Digital Notice Board | Portal</title>
+    <title>Department-Wise Digital Notice Board | ABESEC Ghaziabad</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* =====================================================================
+           EXISTING STYLES (preserved exactly as in the original project)
+           ===================================================================== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -32,6 +35,15 @@
                 radial-gradient(at 50% 50%, rgba(241, 245, 249, 1) 0px, transparent 100%);
             padding: 24px;
             color: #0f172a;
+        }
+
+        .auth-shell {
+            width: 100%;
+            max-width: 1060px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
         }
 
         /* Two-Column Auth Card */
@@ -68,6 +80,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 26px;
+            gap: 12px;
         }
 
         .brand-logo {
@@ -88,6 +101,7 @@
             font-weight: 800;
             font-size: 1.15rem;
             box-shadow: 0 6px 14px rgba(37, 99, 235, 0.28);
+            flex-shrink: 0;
         }
 
         .logo-text {
@@ -95,6 +109,16 @@
             font-weight: 800;
             color: #0f172a;
             letter-spacing: -0.02em;
+            display: block;
+            line-height: 1.15;
+        }
+
+        .inst-subtitle {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #2563eb;
+            letter-spacing: 0.02em;
         }
 
         .live-tag {
@@ -108,6 +132,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
         .live-dot {
@@ -539,7 +564,7 @@
             color: #ffffff;
         }
 
-        /* Post-Login Screen */
+        /* Post-Login Screen (legacy classes - still reused by the Portal) */
         .feed-screen-wrapper {
             width: 100%;
             padding: 44px 50px;
@@ -602,6 +627,9 @@
         }
 
         @media (max-width: 920px) {
+            .auth-shell {
+                max-width: 520px;
+            }
             .auth-wrapper {
                 flex-direction: column;
                 max-width: 520px;
@@ -612,6 +640,488 @@
             .auth-form-side {
                 padding: 38px 28px;
             }
+        }
+
+        /* =====================================================================
+           NEW: Auth form validation helpers
+           ===================================================================== */
+        .field-error {
+            color: #dc2626;
+            font-size: 0.76rem;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .input-box input.has-error {
+            border-color: #f87171;
+            background: #fffafa;
+        }
+        .field-hint {
+            color: #94a3b8;
+            font-size: 0.74rem;
+            margin-top: 5px;
+        }
+        .auth-alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        /* =====================================================================
+           NEW: PORTAL (post-login dashboard)
+           ===================================================================== */
+        body.portal-mode {
+            display: block;
+            padding: 0;
+            background-image: none;
+        }
+
+        .portal {
+            --bg: #f4f6fb;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --muted: #64748b;
+            --faint: #94a3b8;
+            --primary: #2563eb;
+            --primary-2: #6d28d9;
+            --primary-soft: #eff6ff;
+            --danger: #dc2626;
+            --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 26px -14px rgba(15, 23, 42, 0.12);
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .portal[data-theme="dark"] {
+            --bg: #0b1020;
+            --surface: #131a2e;
+            --surface-2: #19223b;
+            --border: #26304d;
+            --text: #e6eaf5;
+            --muted: #9aa7c7;
+            --faint: #6f7ca0;
+            --primary: #7c9cff;
+            --primary-2: #a78bfa;
+            --primary-soft: rgba(124, 156, 255, 0.14);
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 26px -14px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 268px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 20px 14px;
+            z-index: 60;
+        }
+        .sidebar .logo-text { color: var(--text); }
+        .sidebar-brand { display: flex; align-items: center; gap: 10px; padding: 2px 10px 14px; }
+        .sidebar-nav { flex: 1; overflow-y: auto; padding-right: 2px; }
+        .nav-label {
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--faint); padding: 14px 12px 6px;
+        }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; width: 100%;
+            padding: 10px 12px; border: none; background: none; border-radius: 11px;
+            color: var(--muted); font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            text-align: left; transition: background 0.15s, color 0.15s;
+        }
+        .nav-item:hover { background: var(--surface-2); color: var(--text); }
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.13), rgba(109, 40, 217, 0.13));
+            color: var(--primary);
+        }
+        .nav-text { flex: 1; }
+        .nav-count {
+            min-width: 22px; padding: 1px 7px; border-radius: 20px; font-size: 0.7rem;
+            font-weight: 700; text-align: center; background: var(--primary); color: #fff;
+        }
+        .nav-count.soft { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+        .sidebar-footer { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 8px; }
+        .nav-item.logout:hover { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+        .sidebar-overlay { display: none; }
+
+        /* Main + topbar */
+        .portal-main { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .topbar {
+            position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 12px;
+            padding: 12px 28px; background: var(--surface); border-bottom: 1px solid var(--border);
+        }
+        .topbar-inst {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border-radius: 10px;
+            background: var(--primary-soft); color: var(--primary);
+            font-size: 0.8rem; font-weight: 700; white-space: nowrap; flex-shrink: 0;
+        }
+        .menu-btn { display: none; }
+        .search-box { position: relative; flex: 1; max-width: 460px; }
+        .search-box input {
+            width: 100%; padding: 10px 36px 10px 38px; border: 1.5px solid var(--border);
+            border-radius: 12px; background: var(--surface-2); color: var(--text);
+            font-size: 0.88rem; outline: none; transition: all 0.15s;
+        }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); background: var(--surface); }
+        .search-box .s-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--faint); display: flex; }
+        .search-box .s-clear {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: var(--faint); cursor: pointer; display: flex; padding: 4px;
+        }
+        .topbar-spacer { flex: 1; }
+        .icon-btn {
+            position: relative; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+            background: var(--surface); border: 1.5px solid var(--border); border-radius: 11px;
+            color: var(--muted); cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+        }
+        .icon-btn:hover { color: var(--primary); border-color: var(--primary); background: var(--primary-soft); }
+        .icon-btn.sm { width: 32px; height: 32px; border-radius: 9px; border-width: 1px; }
+        .icon-btn.on { color: var(--primary-2); background: var(--primary-soft); border-color: var(--primary-2); }
+        .bell-badge {
+            position: absolute; top: -6px; right: -6px; min-width: 19px; height: 19px; padding: 0 5px;
+            background: #ef4444; color: #fff; font-size: 0.66rem; font-weight: 700; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface);
+        }
+        .avatar-chip {
+            display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; border: 1.5px solid var(--border);
+            border-radius: 40px; background: var(--surface); cursor: pointer; color: var(--text);
+        }
+        .avatar-chip:hover { border-color: var(--primary); }
+        .avatar-chip .nm { font-size: 0.82rem; font-weight: 700; line-height: 1.2; text-align: left; }
+        .avatar-chip .dp { font-size: 0.7rem; color: var(--muted); display: block; font-weight: 500; }
+        .avatar {
+            width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #2563eb, #6d28d9); color: #fff; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;
+        }
+        .avatar.lg { width: 84px; height: 84px; font-size: 1.7rem; border: 4px solid var(--surface); }
+
+        /* Notification panel */
+        .notif-wrap { position: relative; }
+        .notif-panel {
+            position: absolute; right: 0; top: 50px; width: 360px; max-width: calc(100vw - 32px);
+            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+            box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.3); z-index: 80; overflow: hidden;
+        }
+        .notif-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+        .notif-head h4 { font-size: 0.95rem; }
+        .link-btn { background: none; border: none; color: var(--primary); font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+        .link-btn:hover { text-decoration: underline; }
+        .notif-list { max-height: 360px; overflow-y: auto; }
+        .notif-item { display: flex; gap: 12px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); }
+        .notif-item:hover { background: var(--surface-2); }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-ico { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); }
+        .notif-ico.high { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+        .notif-item h5 { font-size: 0.83rem; font-weight: 600; line-height: 1.35; font-family: 'Inter', sans-serif; }
+        .notif-item span { font-size: 0.72rem; color: var(--muted); }
+
+        /* Page */
+        .page { padding: 26px 28px 36px; max-width: 1280px; margin: 0 auto; width: 100%; flex: 1; }
+        .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+        .page-head h2 { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.02em; }
+        .page-head p { color: var(--muted); font-size: 0.9rem; margin-top: 3px; }
+
+        /* Site Footer (Main Page + Portal) */
+        .site-footer {
+            width: 100%;
+            text-align: center;
+            padding: 16px 24px;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #475569;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 16px;
+        }
+        .site-footer strong { color: #0f172a; }
+        .site-footer .footer-copy {
+            margin-top: 2px;
+            font-size: 0.76rem;
+            color: #64748b;
+        }
+        .portal .site-footer {
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            padding: 18px 28px;
+        }
+        .portal .site-footer strong { color: var(--text); }
+        .portal .site-footer .footer-copy { color: var(--faint); }
+
+        /* Welcome banner */
+        .welcome-card {
+            position: relative; overflow: hidden; border-radius: 22px; padding: 28px 30px; color: #fff;
+            background: linear-gradient(135deg, #1d4ed8 0%, #4f46e5 55%, #7c3aed 100%);
+            display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+            box-shadow: 0 18px 40px -18px rgba(79, 70, 229, 0.6);
+        }
+        .welcome-card::after {
+            content: ''; position: absolute; right: -60px; top: -80px; width: 280px; height: 280px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%); pointer-events: none;
+        }
+        .welcome-card h2 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; position: relative; z-index: 1; }
+        .welcome-card p { color: #dbeafe; margin-top: 6px; font-size: 0.95rem; position: relative; z-index: 1; }
+        .profile-strip {
+            position: relative; z-index: 1; display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 16px;
+        }
+        .profile-strip .avatar { background: #fff; color: #3730a3; }
+        .profile-strip strong { display: block; font-size: 0.92rem; }
+        .profile-strip small { color: #dbeafe; font-size: 0.78rem; display: block; }
+        .dept-pill {
+            display: inline-block; margin-top: 4px; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem;
+            font-weight: 700; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Stat cards */
+        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
+        .stat-card {
+            display: flex; align-items: center; gap: 14px; padding: 18px; background: var(--surface);
+            border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s; text-align: left; color: var(--text);
+        }
+        .stat-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+        .stat-ico { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .stat-ico.blue { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+        .stat-ico.purple { background: rgba(124, 58, 237, 0.12); color: #7c3aed; }
+        .stat-ico.green { background: rgba(5, 150, 105, 0.12); color: #059669; }
+        .stat-ico.amber { background: rgba(217, 119, 6, 0.13); color: #d97706; }
+        .stat-card strong { display: block; font-size: 1.65rem; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.1; }
+        .stat-card span { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+        /* Panels / layout */
+        .grid-2 { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+        .stack { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+        .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 20px; box-shadow: var(--shadow); }
+        .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
+        .panel-head h3 { font-size: 1.02rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .panel-head h3 svg { color: var(--primary); }
+        .panel .feed-grid { margin-top: 0; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+
+        /* Notice rows (compact) */
+        .notice-row { display: flex; align-items: flex-start; gap: 12px; padding: 11px 6px; border-bottom: 1px solid var(--border); cursor: pointer; border-radius: 10px; }
+        .notice-row:last-child { border-bottom: none; }
+        .notice-row:hover { background: var(--surface-2); }
+        .notice-row h5 { font-size: 0.87rem; font-weight: 600; line-height: 1.35; font-family: 'Inter', sans-serif; }
+        .notice-row.is-unread h5 { font-weight: 700; }
+        .notice-row small { color: var(--muted); font-size: 0.75rem; }
+        .row-main { flex: 1; min-width: 0; }
+
+        /* Notice cards (reuse legacy .feed-single-card) */
+        .portal .feed-single-card {
+            background: var(--surface); border-color: var(--border); color: var(--text);
+            display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow);
+        }
+        .portal .feed-single-card:hover { border-color: var(--primary); }
+        .notice-card.is-unread { border-left: 4px solid var(--primary); }
+        .notice-card.is-important { border-color: #c4b5fd; background-image: linear-gradient(180deg, rgba(124, 58, 237, 0.07), transparent 55%); }
+        .notice-card.is-expired { opacity: 0.7; }
+        .nc-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .dept-tag { font-size: 0.74rem; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 3px 9px; border-radius: 8px; }
+        .nc-date { font-size: 0.74rem; color: var(--faint); display: inline-flex; align-items: center; gap: 4px; }
+        .nc-title { font-size: 0.96rem; font-weight: 700; line-height: 1.35; display: flex; gap: 8px; align-items: flex-start; }
+        .notice-card.is-read .nc-title { font-weight: 600; color: var(--muted); }
+        .unread-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 7px; }
+        .nc-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .feed-grid.compact .nc-desc { display: none; }
+        .nc-badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        .nc-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--border); }
+        .nc-actions { display: flex; gap: 6px; }
+        .deadline { font-size: 0.76rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; color: var(--muted); }
+        .deadline.soon { color: #d97706; }
+        .deadline.urgent { color: #dc2626; }
+        .deadline.expired { color: var(--faint); text-decoration: line-through; }
+
+        /* Badges */
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; border: 1px solid transparent; white-space: nowrap; }
+        .b-high { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+        .b-medium { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+        .b-low { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+        .b-new { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+        .b-important { background: #f5f3ff; color: #6d28d9; border-color: #ddd6fe; }
+        .b-expired { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+        .b-cat { background: var(--surface-2); color: var(--muted); border-color: var(--border); }
+        .b-file { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+        .portal[data-theme="dark"] .b-high { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+        .portal[data-theme="dark"] .b-medium { background: rgba(245, 158, 11, 0.14); color: #fcd34d; border-color: rgba(245, 158, 11, 0.3); }
+        .portal[data-theme="dark"] .b-low { background: rgba(16, 185, 129, 0.14); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); }
+        .portal[data-theme="dark"] .b-new { background: rgba(59, 130, 246, 0.16); color: #93c5fd; border-color: rgba(59, 130, 246, 0.3); }
+        .portal[data-theme="dark"] .b-important { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.35); }
+        .portal[data-theme="dark"] .b-expired { background: rgba(148, 163, 184, 0.12); color: #94a3b8; border-color: rgba(148, 163, 184, 0.25); }
+        .portal[data-theme="dark"] .b-file { background: rgba(249, 115, 22, 0.14); color: #fdba74; border-color: rgba(249, 115, 22, 0.3); }
+
+        /* Filters + tabs + chips */
+        .filters-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); }
+        .filter-field { display: flex; flex-direction: column; gap: 4px; min-width: 140px; }
+        .filter-field label { font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .portal select, .portal .field input, .portal .field textarea, .portal .field select {
+            padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--surface);
+            color: var(--text); font-size: 0.86rem; outline: none; width: 100%;
+        }
+        .portal select:focus, .portal .field input:focus, .portal .field textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
+        .portal .field input[disabled] { background: var(--surface-2); color: var(--faint); cursor: not-allowed; }
+        .results-line { display: flex; justify-content: space-between; align-items: center; margin: 14px 2px 0; font-size: 0.82rem; color: var(--muted); }
+        .tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 13px; margin-bottom: 16px; flex-wrap: wrap; }
+        .tab-btn { padding: 8px 16px; border: none; background: none; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow); }
+        .tag-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+        .portal .dept-badge-btn { background: var(--surface-2); border-color: var(--border); color: var(--muted); }
+        .portal .dept-badge-btn:hover { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+        .portal .dept-badge-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .portal .field-label { color: var(--text); }
+
+        /* Buttons */
+        .btn { padding: 10px 18px; border-radius: 11px; font-size: 0.86rem; font-weight: 700; cursor: pointer; border: 1.5px solid transparent; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
+        .btn-primary { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25); }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border); }
+        .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-danger { background: #dc2626; color: #fff; }
+        .btn-danger:hover { background: #b91c1c; }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); background: var(--surface); border: 1.5px dashed var(--border); border-radius: 18px; margin-top: 18px; }
+        .panel .empty-state { margin-top: 0; padding: 28px 12px; border: none; background: none; }
+        .empty-icon { width: 60px; height: 60px; border-radius: 18px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; background: var(--primary-soft); color: var(--primary); }
+        .empty-state h4 { color: var(--text); font-size: 1rem; margin-bottom: 4px; }
+        .empty-state p { font-size: 0.86rem; max-width: 380px; margin: 0 auto 14px; }
+
+        /* Events + calendar */
+        .event-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+        .event-row { display: flex; gap: 14px; align-items: center; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; cursor: pointer; box-shadow: var(--shadow); }
+        .event-row:hover { border-color: var(--primary); }
+        .panel .event-row { box-shadow: none; padding: 10px; border: none; border-bottom: 1px solid var(--border); border-radius: 10px; }
+        .panel .event-row:last-child { border-bottom: none; }
+        .date-block { width: 54px; flex-shrink: 0; text-align: center; border-radius: 13px; padding: 7px 0; background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; }
+        .date-block span { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.9; }
+        .date-block strong { font-size: 1.3rem; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.1; }
+        .event-row h5 { font-size: 0.88rem; font-weight: 600; line-height: 1.35; font-family: 'Inter', sans-serif; }
+        .event-row small { color: var(--muted); font-size: 0.76rem; }
+        .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; flex-wrap: wrap; }
+        .cal-head h3 { font-size: 1.1rem; }
+        .cal-nav { display: flex; gap: 8px; align-items: center; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .cal-dow { text-align: center; font-size: 0.7rem; font-weight: 700; color: var(--faint); text-transform: uppercase; padding: 4px 0; }
+        .cal-day { min-height: 64px; padding: 6px; border: 1px solid var(--border); border-radius: 11px; background: var(--surface-2); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; text-align: left; color: var(--text); font-size: 0.82rem; font-weight: 600; }
+        .cal-day:hover { border-color: var(--primary); }
+        .cal-day.empty { visibility: hidden; cursor: default; }
+        .cal-day.today { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+        .cal-day.selected { outline: 2px solid var(--primary-2); }
+        .cal-dots { display: flex; gap: 4px; }
+        .cal-dots i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+        .cal-legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 14px 0; font-size: 0.76rem; color: var(--muted); }
+        .cal-legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .cal-legend i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+
+        /* Tables */
+        .table-wrap { overflow-x: auto; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 620px; }
+        .data-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--border); }
+        .data-table td { padding: 13px 12px; border-bottom: 1px solid var(--border); }
+        .data-table tr:last-child td { border-bottom: none; }
+        .info-strip { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-radius: 14px; background: var(--primary-soft); color: var(--primary); font-weight: 600; font-size: 0.88rem; margin-bottom: 14px; }
+
+        /* Dept hero (My Department) */
+        .dept-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+        .dept-hero .stat-ico { width: 56px; height: 56px; }
+        .dept-hero h3 { font-size: 1.15rem; }
+        .dept-hero p { color: var(--muted); font-size: 0.86rem; margin-top: 2px; }
+
+        /* Modal / confirm / toast */
+        .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 100; animation: fadeOnly 0.18s ease; }
+        @keyframes fadeOnly { from { opacity: 0; } to { opacity: 1; } }
+        .modal { background: var(--surface); color: var(--text); width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto; border-radius: 22px; padding: 26px; box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.5); border: 1px solid var(--border); }
+        .modal.sm { max-width: 420px; text-align: center; }
+        .modal-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+        .modal h3 { font-size: 1.3rem; line-height: 1.3; letter-spacing: -0.01em; }
+        .modal-desc { color: var(--muted); line-height: 1.7; font-size: 0.93rem; margin: 14px 0; }
+        .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+        .meta-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
+        .meta-item small { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); font-weight: 700; }
+        .meta-item span { font-size: 0.88rem; font-weight: 600; }
+        .attach-box { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px dashed var(--border); border-radius: 12px; margin-bottom: 16px; }
+        .attach-box .grow { flex: 1; min-width: 0; font-size: 0.86rem; font-weight: 600; word-break: break-all; }
+        .attach-box small { display: block; color: var(--muted); font-weight: 400; }
+        .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+        .modal.sm .modal-actions { justify-content: center; margin-top: 18px; }
+        .confirm-ico { width: 54px; height: 54px; border-radius: 16px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 12px; font-size: 0.86rem; font-weight: 600; z-index: 200; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35); display: flex; align-items: center; gap: 8px; animation: fadeOnly 0.2s; }
+
+        /* Profile / settings */
+        .profile-grid { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; align-items: start; }
+        .profile-cover { height: 92px; border-radius: 14px; background: linear-gradient(135deg, #2563eb, #7c3aed); margin: -4px -4px 0; }
+        .profile-card { text-align: center; }
+        .profile-card .avatar.lg { margin: -42px auto 10px; position: relative; }
+        .profile-card h3 { font-size: 1.15rem; }
+        .profile-card p { color: var(--muted); font-size: 0.85rem; }
+        .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+        .mini-stats div { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 4px; }
+        .mini-stats strong { display: block; font-size: 1.1rem; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .mini-stats small { font-size: 0.68rem; color: var(--muted); }
+        .detail-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 20px; }
+        .detail-list small { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); font-weight: 700; display: block; }
+        .detail-list span { font-size: 0.93rem; font-weight: 600; word-break: break-word; }
+        .detail-list .full { grid-column: 1 / -1; }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .form-grid .full { grid-column: 1 / -1; }
+        .field label { display: block; font-size: 0.78rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+        .field textarea { resize: vertical; min-height: 80px; font-family: inherit; }
+        .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .setting-row:last-child { border-bottom: none; }
+        .setting-row h4 { font-size: 0.93rem; font-family: 'Inter', sans-serif; font-weight: 700; }
+        .setting-row p { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+        .toggle { width: 46px; height: 26px; border-radius: 20px; border: none; background: var(--border); position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+        .toggle span { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+        .toggle.on { background: linear-gradient(135deg, #2563eb, #7c3aed); }
+        .toggle.on span { transform: translateX(20px); }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .grid-2, .profile-grid { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 960px) {
+            .sidebar { position: fixed; left: 0; top: 0; transform: translateX(-100%); transition: transform 0.25s ease; box-shadow: 0 0 40px rgba(0, 0, 0, 0.25); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.open { display: block; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); z-index: 55; }
+            .menu-btn { display: inline-flex; }
+            .topbar { padding: 10px 16px; }
+            .topbar-inst { display: none; }
+            .page { padding: 20px 16px 32px; }
+            .avatar-chip .nm-wrap { display: none; }
+            .avatar-chip { padding: 3px; }
+        }
+        @media (max-width: 560px) {
+            .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stat-card { padding: 14px; flex-direction: column; align-items: flex-start; gap: 10px; }
+            .welcome-card { padding: 22px 20px; }
+            .welcome-card h2 { font-size: 1.35rem; }
+            .meta-grid, .detail-list, .form-grid { grid-template-columns: 1fr; }
+            .filter-field { min-width: calc(50% - 6px); flex: 1; }
+            .cal-day { min-height: 48px; padding: 4px; font-size: 0.74rem; }
+            .event-list { grid-template-columns: 1fr; }
+            .modal { padding: 20px; }
         }
     </style>
 </head>
@@ -626,9 +1136,11 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useEffect, useMemo, useRef } = React;
 
-        /* SVG ICONS LIBRARY */
+        /* =====================================================================
+           EXISTING: SVG ICONS LIBRARY (preserved)
+           ===================================================================== */
         const IconLaptop = ({ size = 15, color = "currentColor" }) => (
             <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="12" rx="2"/>
@@ -720,6 +1232,48 @@
             </svg>
         );
 
+        /* NEW: generic icon component used by the portal (keeps the code short) */
+        const ICON_PATHS = {
+            home: <><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></>,
+            inbox: <><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></>,
+            building: <><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11H9V10z"/></>,
+            book: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></>,
+            exam: <><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></>,
+            calendar: <><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
+            briefcase: <><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>,
+            star: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>,
+            bookmark: <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>,
+            user: <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
+            settings: <><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></>,
+            logout: <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
+            bell: <><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></>,
+            search: <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>,
+            moon: <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>,
+            sun: <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></>,
+            menu: <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>,
+            x: <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>,
+            paperclip: <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>,
+            eye: <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></>,
+            eyeoff: <><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></>,
+            pin: <><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></>,
+            clock: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
+            check: <polyline points="20 6 9 17 4 12"/>,
+            edit: <><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></>,
+            alert: <><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></>,
+            left: <polyline points="15 18 9 12 15 6"/>,
+            right: <polyline points="9 18 15 12 9 6"/>,
+            download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
+            file: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></>
+        };
+        const Icon = ({ name, size = 18, color = "currentColor", fill = "none", strokeWidth = 2 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+                {ICON_PATHS[name]}
+            </svg>
+        );
+
+        /* =====================================================================
+           EXISTING: DEPARTMENTS + SAMPLE_NOTICES (preserved untouched)
+           ===================================================================== */
         const DEPARTMENTS = [
             { id: 'CSE', name: 'Computer Science (CSE)', count: 4, Icon: IconLaptop },
             { id: 'IT', name: 'Information Tech (IT)', count: 3, Icon: IconGlobe },
@@ -755,330 +1309,1626 @@
             ]
         };
 
-        function App() {
-            const [mode, setMode] = useState('login'); // 'login' or 'signup'
-            const [selectedDept, setSelectedDept] = useState('CSE');
-            const [email, setEmail] = useState('');
-            const [password, setPassword] = useState('');
-            const [fullName, setFullName] = useState('');
-            const [showPassword, setShowPassword] = useState(false);
-            const [isLoggedIn, setIsLoggedIn] = useState(false);
+        /* =====================================================================
+           NEW: Constants, storage helpers, date helpers
+           ===================================================================== */
+        const STORAGE_KEYS = {
+            users: 'nb_users',
+            session: 'nb_session',
+            notices: 'nb_notices_v1',
+            theme: 'nb_theme',
+            userData: (email) => `nb_userdata_${email}`
+        };
+        const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        const MS_DAY = 86400000;
+        const CENTRAL_CELLS = ['T&P', 'EXAM'];   // cells that broadcast to every department
+        const DEFAULT_SETTINGS = { showAllDepts: false, hideExpired: false, alertHigh: true, compact: false };
+        const YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
 
-            const currentDept = DEPARTMENTS.find(d => d.id === selectedDept) || DEPARTMENTS[0];
-            const currentNotices = SAMPLE_NOTICES[selectedDept] || SAMPLE_NOTICES['CSE'];
+        const DEFAULT_USERS = [
+            {
+                id: 'u_admin',
+                name: 'ABESEC Admin',
+                email: 'admin@abesec.ac.in',
+                password: 'Admin@123',
+                role: 'Admin',
+                department: 'CSE',
+                year: 'Faculty / Admin',
+                phone: '',
+                about: 'ABESEC Ghaziabad NoticeHub Administrator',
+                createdAt: '2026-01-01T00:00:00.000Z'
+            },
+            {
+                id: 'u_student',
+                name: 'Ayush Shukla',
+                email: 'student@abesec.ac.in',
+                password: 'Student@123',
+                role: 'Student',
+                department: 'CSE',
+                year: '3rd Year',
+                phone: '',
+                about: 'B.Tech CSE Student, ABESEC Ghaziabad (Roll No: 2400320100353)',
+                createdAt: '2026-01-01T00:00:00.000Z'
+            }
+        ];
 
-            const handleAuth = (e) => {
-                e.preventDefault();
-                if (!email || !password) {
-                    alert('Please enter your credentials.');
-                    return;
+        const storage = {
+            get(key, fallback) {
+                try { const raw = localStorage.getItem(key); return raw === null ? fallback : JSON.parse(raw); }
+                catch (e) { return fallback; }
+            },
+            set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage full / blocked */ } }
+        };
+
+        const ensureDefaultUsers = () => {
+            const users = storage.get(STORAGE_KEYS.users, []);
+            let changed = false;
+            const merged = [...users];
+            DEFAULT_USERS.forEach(def => {
+                if (!merged.some(u => u.email === def.email)) {
+                    merged.push(def);
+                    changed = true;
                 }
-                setIsLoggedIn(true);
-            };
+            });
+            if (changed) storage.set(STORAGE_KEYS.users, merged);
+            return merged;
+        };
 
-            const handleFastSSO = (provider) => {
-                setEmail(`student@${provider.toLowerCase()}.edu`);
-                setPassword('password123');
-                setIsLoggedIn(true);
+        // Session: "Remember me" -> localStorage, otherwise sessionStorage
+        const saveSession = (email, remember) => {
+            try {
+                localStorage.removeItem(STORAGE_KEYS.session);
+                sessionStorage.removeItem(STORAGE_KEYS.session);
+                (remember ? localStorage : sessionStorage).setItem(STORAGE_KEYS.session, email);
+            } catch (e) { /* ignore */ }
+        };
+        const clearSession = () => {
+            try { localStorage.removeItem(STORAGE_KEYS.session); sessionStorage.removeItem(STORAGE_KEYS.session); } catch (e) { /* ignore */ }
+        };
+        const restoreSession = () => {
+            try {
+                const users = ensureDefaultUsers();
+                const em = localStorage.getItem(STORAGE_KEYS.session) || sessionStorage.getItem(STORAGE_KEYS.session);
+                if (!em) return null;
+                return users.find(u => u.email === em) || null;
+            } catch (e) { return null; }
+        };
+
+        const startOfDay = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+        const daysFromNow = (n) => { const d = startOfDay(new Date()); d.setDate(d.getDate() + n); return d.toISOString(); };
+        const hoursAgo = (h) => new Date(Date.now() - h * 3600000).toISOString();
+        const dayDiff = (iso) => Math.round((startOfDay(iso) - startOfDay(new Date())) / MS_DAY);
+        const formatDate = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        const formatShort = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        const dateKey = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        const initials = (name) => (name || '?').trim().split(/\s+/).slice(0, 2).map(p => p[0]).join('').toUpperCase();
+        const deptLabel = (id) => (id === 'ALL' ? 'All Depts' : id);
+        const byNewest = (a, b) => new Date(b.published) - new Date(a.published);
+
+        const timeAgo = (iso) => {
+            const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+            if (m < 1) return 'Just now';
+            if (m < 60) return `${m} min ago`;
+            const h = Math.floor(m / 60);
+            if (h < 24) return `${h} hr ago`;
+            const d = Math.floor(h / 24);
+            if (d < 7) return d === 1 ? 'Yesterday' : `${d} days ago`;
+            return formatDate(iso);
+        };
+        const relativeDay = (iso) => {
+            const d = dayDiff(iso);
+            if (d === 0) return 'Today';
+            if (d === 1) return 'Tomorrow';
+            if (d > 1) return `In ${d} days`;
+            if (d === -1) return 'Yesterday';
+            return `${-d} days ago`;
+        };
+
+        /* Notice status: Expired > Important > New > none */
+        const isNew = (n) => Date.now() - new Date(n.published).getTime() < 3 * MS_DAY;
+        const getStatus = (n) => {
+            const end = n.deadline || n.eventDate;
+            if (end && dayDiff(end) < 0) return 'Expired';
+            if (n.important || n.priority === 'High') return 'Important';
+            if (isNew(n)) return 'New';
+            return null;
+        };
+        const isImportantNotice = (n) => (n.important || n.priority === 'High' || n.pinned) && getStatus(n) !== 'Expired';
+        const deadlineInfo = (n) => {
+            if (n.deadline) {
+                const d = dayDiff(n.deadline);
+                if (d < 0) return { text: `Closed ${formatShort(n.deadline)}`, tone: 'expired' };
+                if (d === 0) return { text: 'Due today', tone: 'urgent' };
+                if (d === 1) return { text: 'Due tomorrow', tone: 'urgent' };
+                return { text: `Due ${formatShort(n.deadline)}`, tone: d <= 3 ? 'soon' : 'ok' };
+            }
+            if (n.eventDate) return { text: `Event: ${formatShort(n.eventDate)}`, tone: 'ok' };
+            return { text: 'No deadline', tone: 'none' };
+        };
+        const getUpcomingEvents = (list) =>
+            list.filter(n => n.eventDate && dayDiff(n.eventDate) >= 0)
+                .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+
+        /* =====================================================================
+           NEW: Sample data builders (wrap the legacy SAMPLE_NOTICES + extras)
+           ===================================================================== */
+        const DEPT_AUTHORS = {
+            CSE: 'HoD, Dept. of CSE', IT: 'HoD, Dept. of IT', ECE: 'HoD, Dept. of ECE', ME: 'HoD, Dept. of ME',
+            'T&P': 'Training & Placement Cell', EXAM: 'Examination Cell', ALL: 'Office of the Dean'
+        };
+
+        // Extra metadata for each legacy notice, keyed by "<DEPT>-<legacy id>"
+        const LEGACY_META = {
+            'CSE-1': { category: 'Academic', tag: 'Project', priority: 'High', hoursAgo: 3, deadlineOffset: 7, important: true, pinned: true, attachment: 'Viva_Schedule_CSE.pdf' },
+            'CSE-2': { category: 'Events', tag: 'Hackathon', priority: 'High', hoursAgo: 26, deadlineOffset: 4, eventOffset: 4, important: true },
+            'CSE-3': { category: 'Academic', tag: 'Assignment', priority: 'Medium', hoursAgo: 120, deadlineOffset: 1 },
+            'IT-1': { category: 'Events', tag: 'Workshop', priority: 'Medium', hoursAgo: 4, deadlineOffset: 3, eventOffset: 6 },
+            'IT-2': { category: 'Academic', tag: 'Assignment', priority: 'Medium', hoursAgo: 28, deadlineOffset: 2 },
+            'ECE-1': { category: 'Events', tag: 'Workshop', priority: 'Medium', hoursAgo: 8, deadlineOffset: 7, eventOffset: 9 },
+            'ME-1': { category: 'Events', tag: 'Visit', priority: 'Low', hoursAgo: 10, deadlineOffset: 2, eventOffset: 5 },
+            'T&P-1': { category: 'Placement', tag: 'Drive', priority: 'High', hoursAgo: 1, deadlineOffset: 0, important: true, pinned: true, attachment: 'Eligibility_List.pdf' },
+            'T&P-2': { category: 'Placement', tag: 'Prep', priority: 'Low', hoursAgo: 30, deadlineOffset: 2, eventOffset: 1 },
+            'EXAM-1': { category: 'Examination', tag: 'Timetable', priority: 'High', hoursAgo: 6, pinned: true, attachment: 'EndTerm_Timetable_Odd2026.pdf' },
+            'EXAM-2': { category: 'Examination', tag: 'Registration', priority: 'High', hoursAgo: 100, deadlineOffset: -4 }
+        };
+
+        const EXTRA_NOTICES = [
+            { id: 'N-01', title: 'Internal Assessment-II Examination Timetable', dept: 'EXAM', category: 'Examination', tag: 'Timetable', priority: 'High', hoursAgo: 20, eventOffset: 12, pinned: true, attachment: 'IA2_Timetable.pdf', desc: 'Internal Assessment-II begins in two weeks. Seating plan will be displayed outside each hall 30 minutes before the paper.' },
+            { id: 'N-02', title: 'Internal Assessment-I Results Declared', dept: 'EXAM', category: 'Examination', tag: 'Result', priority: 'Medium', hoursAgo: 40, deadlineOffset: 3, attachment: 'IA1_Results.pdf', desc: 'Marks are now visible on the student portal. Grievances regarding evaluation can be submitted to the Exam Cell before the deadline.' },
+            { id: 'N-03', title: 'TechNova 2026 – Annual Technical Fest', dept: 'ALL', category: 'Events', tag: 'Fest', priority: 'High', hoursAgo: 5, deadlineOffset: 10, eventOffset: 18, important: true, desc: 'Coding contests, robotics, paper presentations and a 24-hour hackathon. Team registrations are open for all branches.' },
+            { id: 'N-04', title: 'Holiday Announcement: Institute Foundation Day', dept: 'ALL', category: 'General', tag: 'Holiday', priority: 'Low', hoursAgo: 52, eventOffset: 10, desc: 'The institute will remain closed on Foundation Day. Regular classes resume the next working day.' },
+            { id: 'N-05', title: 'Summer Internship – Software Engineering (6 Months)', dept: 'T&P', category: 'Placement', tag: 'Internship', priority: 'Medium', hoursAgo: 48, deadlineOffset: 8, attachment: 'Internship_JD.pdf', desc: 'Paid internship with partner startups. Open to pre-final year students of CSE, IT and ECE with a minimum CGPA of 7.0.' },
+            { id: 'N-06', title: 'Pre-Placement Talk: Zoho Corporation', dept: 'T&P', category: 'Placement', tag: 'Drive', priority: 'Medium', hoursAgo: 14, deadlineOffset: 2, eventOffset: 3, desc: 'Company representatives will present the hiring process and roles on offer. Attendance is mandatory for registered students.' },
+            { id: 'N-07', title: 'CAD/CAM Hands-On Workshop – Registration Open', dept: 'ME', category: 'Events', tag: 'Workshop', priority: 'Medium', hoursAgo: 6, deadlineOffset: 5, eventOffset: 8, desc: 'Two-day workshop on modelling and simulation. Limited to 40 seats on a first-come, first-served basis.' },
+            { id: 'N-08', title: 'Mini Project Report Submission – Semester V', dept: 'ECE', category: 'Academic', tag: 'Project', priority: 'High', hoursAgo: 60, deadlineOffset: 6, attachment: 'Report_Format.pdf', desc: 'Submit the signed hard copy and soft copy to the project coordinator. Reports must follow the attached format.' },
+            { id: 'N-09', title: 'Minimum Attendance Requirement – Shortage List', dept: 'ALL', category: 'Academic', tag: 'Attendance', priority: 'High', hoursAgo: 50, important: true, desc: 'Students with attendance below 75% are listed on the notice board. Meet your class coordinator to avoid detention from exams.' },
+            { id: 'N-10', title: 'Revised Syllabus: Operating Systems', dept: 'CSE', category: 'Academic', tag: 'Syllabus', priority: 'Low', hoursAgo: 150, attachment: 'OS_Syllabus_2026.pdf', desc: 'Unit 4 and Unit 5 have been revised as per the latest curriculum committee decision.' },
+            { id: 'N-11', title: 'Guest Lecture: Microservices in Production', dept: 'IT', category: 'Events', tag: 'Lecture', priority: 'Low', hoursAgo: 8, eventOffset: 2, desc: 'An industry speaker will discuss real-world service architecture. Venue: Seminar Hall 1.' },
+            { id: 'N-12', title: 'Library Book Return & Fine Waiver Drive', dept: 'ALL', category: 'General', tag: 'Library', priority: 'Low', hoursAgo: 72, deadlineOffset: 9, desc: 'Return overdue books during the drive and get the late fine waived.' },
+            { id: 'N-13', title: 'Merit-cum-Means Scholarship Applications', dept: 'ALL', category: 'General', tag: 'Scholarship', priority: 'Medium', hoursAgo: 90, deadlineOffset: 14, attachment: 'Scholarship_Form.pdf', desc: 'Eligible students can apply through the accounts office with income proof and previous semester marksheets.' },
+            { id: 'N-14', title: 'Hostel Room Re-allotment Form', dept: 'ALL', category: 'General', tag: 'Hostel', priority: 'Medium', hoursAgo: 216, deadlineOffset: -2, desc: 'The window for re-allotment requests has closed. Allotments will be published by the hostel office.' },
+            { id: 'N-15', title: 'Backlog & Re-evaluation Results – Semester IV', dept: 'EXAM', category: 'Examination', tag: 'Result', priority: 'Low', hoursAgo: 144, desc: 'Revised marks after re-evaluation have been uploaded. Check the student portal for your updated marksheet.' },
+            { id: 'N-16', title: 'Virtual Internship – Data Analytics (Remote, 8 Weeks)', dept: 'T&P', category: 'Placement', tag: 'Internship', priority: 'Low', hoursAgo: 70, deadlineOffset: 12, desc: 'Remote internship with weekly mentor sessions. Certificate on successful completion.' }
+        ];
+
+        const makeNotice = (o) => ({
+            id: o.id,
+            title: o.title,
+            desc: o.desc,
+            dept: o.dept,
+            category: o.category || 'General',
+            tag: o.tag || '',
+            published: hoursAgo(o.hoursAgo != null ? o.hoursAgo : 24),
+            deadline: o.deadlineOffset != null ? daysFromNow(o.deadlineOffset) : null,
+            eventDate: o.eventOffset != null ? daysFromNow(o.eventOffset) : null,
+            priority: o.priority || 'Medium',
+            important: !!o.important,
+            pinned: !!o.pinned,
+            attachment: o.attachment || null,
+            postedBy: DEPT_AUTHORS[o.dept] || 'Administration'
+        });
+
+        const buildSeedNotices = () => {
+            const legacy = Object.entries(SAMPLE_NOTICES).flatMap(([dept, list]) =>
+                list.map(n => makeNotice({ id: `${dept}-${n.id}`, title: n.title, desc: n.desc, dept, ...(LEGACY_META[`${dept}-${n.id}`] || {}) }))
+            );
+            return [...legacy, ...EXTRA_NOTICES.map(makeNotice)];
+        };
+
+        const EXAM_TIMETABLE = [
+            { date: daysFromNow(12), subject: 'Engineering Mathematics III', code: 'MA301', branch: 'All Branches', time: '10:00 – 11:30 AM', venue: 'Main Auditorium' },
+            { date: daysFromNow(13), subject: 'Data Structures & Algorithms', code: 'CS302', branch: 'CSE / IT', time: '10:00 – 11:30 AM', venue: 'Block A, Hall 2' },
+            { date: daysFromNow(14), subject: 'Digital Electronics', code: 'EC303', branch: 'ECE', time: '10:00 – 11:30 AM', venue: 'Block B, Hall 1' },
+            { date: daysFromNow(15), subject: 'Database Management Systems', code: 'IT304', branch: 'CSE / IT', time: '2:00 – 3:30 PM', venue: 'Block A, Hall 3' },
+            { date: daysFromNow(16), subject: 'Thermodynamics', code: 'ME305', branch: 'ME', time: '10:00 – 11:30 AM', venue: 'Block C, Hall 1' },
+            { date: daysFromNow(17), subject: 'Professional Communication', code: 'HS306', branch: 'All Branches', time: '2:00 – 3:30 PM', venue: 'Main Auditorium' }
+        ];
+
+        const ACADEMIC_CALENDAR = [
+            { date: daysFromNow(-12), title: 'Internal Assessment-I Concluded', type: 'exam' },
+            { date: daysFromNow(-3), title: 'IA-I Answer Sheet Review', type: 'academic' },
+            { date: daysFromNow(6), title: 'Faculty Advisory Meeting', type: 'academic' },
+            { date: daysFromNow(10), title: 'Institute Foundation Day (Holiday)', type: 'holiday' },
+            { date: daysFromNow(12), title: 'Internal Assessment-II Begins', type: 'exam' },
+            { date: daysFromNow(17), title: 'Internal Assessment-II Ends', type: 'exam' },
+            { date: daysFromNow(20), title: 'Project Mid-Review Week', type: 'academic' },
+            { date: daysFromNow(25), title: 'Winter Semester Registration Opens', type: 'academic' },
+            { date: daysFromNow(33), title: 'Last Working Day – Odd Semester', type: 'academic' },
+            { date: daysFromNow(40), title: 'End-Term Examinations Begin', type: 'exam' }
+        ];
+
+        const TYPE_META = {
+            academic: { label: 'Academic', color: '#2563eb' },
+            exam: { label: 'Exam', color: '#dc2626' },
+            holiday: { label: 'Holiday', color: '#059669' },
+            event: { label: 'Event', color: '#7c3aed' },
+            deadline: { label: 'Deadline', color: '#d97706' }
+        };
+
+        const loadNotices = () => {
+            const stored = storage.get(STORAGE_KEYS.notices, null);
+            if (Array.isArray(stored) && stored.length) return stored;
+            const seed = buildSeedNotices();
+            storage.set(STORAGE_KEYS.notices, seed);
+            return seed;
+        };
+        const loadUserData = (email) => {
+            const s = storage.get(STORAGE_KEYS.userData(email), {});
+            return { read: s.read || [], saved: s.saved || [], settings: { ...DEFAULT_SETTINGS, ...(s.settings || {}) } };
+        };
+
+        /* =====================================================================
+           Institution Footer Component
+           ===================================================================== */
+        function SiteFooter() {
+            return (
+                <footer className="site-footer">
+                    <p>
+                        <strong>Developed &amp; Maintained By:</strong> Ayush Shukla (2400320100353, CSE) &amp; Riya Baliyaan (2400320310143, ECE)
+                    </p>
+                    <p>Full Stack Development Team</p>
+                    <p className="footer-copy">&copy; 2026 ABESEC Ghaziabad. All Rights Reserved.</p>
+                </footer>
+            );
+        }
+
+        /* =====================================================================
+           NEW: Small reusable UI components
+           ===================================================================== */
+        const PriorityBadge = ({ priority }) => (
+            <span className={`badge b-${priority.toLowerCase()}`}>{priority} priority</span>
+        );
+        const StatusBadge = ({ notice }) => {
+            const s = getStatus(notice);
+            if (!s) return null;
+            return <span className={`badge b-${s.toLowerCase()}`}>{s}</span>;
+        };
+
+        const EmptyState = ({ icon = 'inbox', title, text, action }) => (
+            <div className="empty-state">
+                <div className="empty-icon"><Icon name={icon} size={28} /></div>
+                <h4>{title}</h4>
+                <p>{text}</p>
+                {action}
+            </div>
+        );
+
+        const Panel = ({ title, icon, action, children }) => (
+            <div className="panel">
+                <div className="panel-head">
+                    <h3>{icon && <Icon name={icon} size={18} />}{title}</h3>
+                    {action}
+                </div>
+                {children}
+            </div>
+        );
+
+        const Tabs = ({ tabs, value, onChange }) => (
+            <div className="tabs" role="tablist">
+                {tabs.map(t => (
+                    <button key={t.id} role="tab" aria-selected={value === t.id} className={`tab-btn ${value === t.id ? 'active' : ''}`} onClick={() => onChange(t.id)}>
+                        {t.label}
+                    </button>
+                ))}
+            </div>
+        );
+
+        const Toggle = ({ checked, onChange, label }) => (
+            <button type="button" role="switch" aria-checked={checked} aria-label={label} className={`toggle ${checked ? 'on' : ''}`} onClick={() => onChange(!checked)}>
+                <span />
+            </button>
+        );
+
+        const PageHeader = ({ title, subtitle, right }) => (
+            <div className="page-head">
+                <div><h2>{title}</h2><p>{subtitle}</p></div>
+                {right}
+            </div>
+        );
+
+        /* Full notice card (reuses legacy .feed-single-card styling) */
+        function NoticeCard({ n, api }) {
+            const status = getStatus(n);
+            const read = api.isRead(n.id);
+            const saved = api.isSaved(n.id);
+            const dl = deadlineInfo(n);
+            const cls = ['feed-single-card', 'notice-card', read ? 'is-read' : 'is-unread', status === 'Important' ? 'is-important' : '', status === 'Expired' ? 'is-expired' : ''].join(' ');
+            return (
+                <div className={cls} role="button" tabIndex={0} onClick={() => api.openNotice(n.id)}
+                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); api.openNotice(n.id); } }}>
+                    <div className="nc-top">
+                        <span className="dept-tag">{deptLabel(n.dept)}</span>
+                        <span className="nc-date">{n.pinned && <Icon name="pin" size={12} color="#7c3aed" />}{timeAgo(n.published)}</span>
+                    </div>
+                    <h4 className="nc-title">{!read && <span className="unread-dot" title="Unread" />}<span>{n.title}</span></h4>
+                    <p className="nc-desc">{n.desc}</p>
+                    <div className="nc-badges">
+                        <span className="badge b-cat">{n.category}</span>
+                        <PriorityBadge priority={n.priority} />
+                        <StatusBadge notice={n} />
+                        {status === 'Important' && isNew(n) && <span className="badge b-new">New</span>}
+                        {n.attachment && <span className="badge b-file"><Icon name="paperclip" size={11} /> PDF</span>}
+                    </div>
+                    <div className="nc-foot">
+                        <span className={`deadline ${dl.tone}`}><Icon name="clock" size={13} />{dl.text}</span>
+                        <div className="nc-actions">
+                            <button className={`icon-btn sm ${saved ? 'on' : ''}`} title={saved ? 'Remove bookmark' : 'Save notice'} aria-label="Toggle bookmark"
+                                    onClick={(e) => { e.stopPropagation(); api.toggleSave(n.id); }}>
+                                <Icon name="bookmark" size={15} fill={saved ? 'currentColor' : 'none'} />
+                            </button>
+                            <button className="icon-btn sm" title={read ? 'Mark as unread' : 'Mark as read'} aria-label="Toggle read"
+                                    onClick={(e) => { e.stopPropagation(); api.toggleRead(n.id); }}>
+                                <Icon name={read ? 'eyeoff' : 'eye'} size={15} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        /* Compact row used on the dashboard */
+        const NoticeRow = ({ n, api }) => {
+            const read = api.isRead(n.id);
+            return (
+                <div className={`notice-row ${read ? 'is-read' : 'is-unread'}`} role="button" tabIndex={0} onClick={() => api.openNotice(n.id)}
+                     onKeyDown={(e) => { if (e.key === 'Enter') api.openNotice(n.id); }}>
+                    {!read ? <span className="unread-dot" /> : <span style={{ width: 8 }} />}
+                    <div className="row-main">
+                        <h5>{n.title}</h5>
+                        <small>{deptLabel(n.dept)} · {n.category} · {timeAgo(n.published)}</small>
+                    </div>
+                    <StatusBadge notice={n} />
+                </div>
+            );
+        };
+
+        const EventRow = ({ n, api }) => {
+            const d = new Date(n.eventDate);
+            return (
+                <div className="event-row" role="button" tabIndex={0} onClick={() => api.openNotice(n.id)} onKeyDown={(e) => { if (e.key === 'Enter') api.openNotice(n.id); }}>
+                    <div className="date-block">
+                        <span>{d.toLocaleDateString('en-IN', { month: 'short' })}</span>
+                        <strong>{d.getDate()}</strong>
+                    </div>
+                    <div className="row-main">
+                        <h5>{n.title}</h5>
+                        <small>{deptLabel(n.dept)} · {n.category} · {relativeDay(n.eventDate)}</small>
+                    </div>
+                </div>
+            );
+        };
+
+        /* Modal with full notice details */
+        function NoticeModal({ n, api, onClose, showToast }) {
+            const saved = api.isSaved(n.id);
+            const read = api.isRead(n.id);
+            const dl = deadlineInfo(n);
+            return (
+                <div className="modal-backdrop" onClick={onClose}>
+                    <div className="modal" role="dialog" aria-modal="true" aria-label={n.title} onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-top">
+                            <div className="nc-badges">
+                                <span className="dept-tag">{deptLabel(n.dept)}</span>
+                                <span className="badge b-cat">{n.category}</span>
+                                <PriorityBadge priority={n.priority} />
+                                <StatusBadge notice={n} />
+                                {n.pinned && <span className="badge b-important"><Icon name="pin" size={11} /> Pinned</span>}
+                            </div>
+                            <button className="icon-btn sm" onClick={onClose} aria-label="Close"><Icon name="x" size={16} /></button>
+                        </div>
+                        <h3>{n.title}</h3>
+                        <p className="modal-desc">{n.desc}</p>
+                        <div className="meta-grid">
+                            <div className="meta-item"><small>Published</small><span>{formatDate(n.published)}</span></div>
+                            <div className="meta-item"><small>Last date / deadline</small><span>{n.deadline ? `${formatDate(n.deadline)} (${dl.text})` : 'Not applicable'}</span></div>
+                            {n.eventDate && <div className="meta-item"><small>Event date</small><span>{formatDate(n.eventDate)} · {relativeDay(n.eventDate)}</span></div>}
+                            <div className="meta-item"><small>Department</small><span>{n.dept === 'ALL' ? 'All Departments' : (DEPARTMENTS.find(d => d.id === n.dept) || {}).name}</span></div>
+                            <div className="meta-item"><small>Posted by</small><span>{n.postedBy}</span></div>
+                        </div>
+                        {n.attachment && (
+                            <div className="attach-box">
+                                <Icon name="file" size={26} color="#c2410c" />
+                                <div className="grow">{n.attachment}<small>Sample PDF attachment</small></div>
+                                <button className="btn btn-ghost" onClick={() => showToast('Demo only – no real file is attached to sample notices.')}>
+                                    <Icon name="download" size={15} /> Download
+                                </button>
+                            </div>
+                        )}
+                        <div className="modal-actions">
+                            <button className="btn btn-ghost" onClick={() => api.toggleSave(n.id)}>
+                                <Icon name="bookmark" size={15} fill={saved ? 'currentColor' : 'none'} /> {saved ? 'Saved' : 'Save notice'}
+                            </button>
+                            <button className="btn btn-ghost" onClick={() => api.toggleRead(n.id)}>
+                                <Icon name={read ? 'eyeoff' : 'eye'} size={15} /> {read ? 'Mark as unread' : 'Mark as read'}
+                            </button>
+                            <button className="btn btn-primary" onClick={onClose}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const ConfirmDialog = ({ title, message, confirmLabel, onConfirm, onCancel }) => (
+            <div className="modal-backdrop" onClick={onCancel}>
+                <div className="modal sm" role="alertdialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+                    <div className="confirm-ico"><Icon name="alert" size={26} /></div>
+                    <h3>{title}</h3>
+                    <p className="modal-desc">{message}</p>
+                    <div className="modal-actions">
+                        <button className="btn btn-ghost" onClick={onCancel}>Cancel</button>
+                        <button className="btn btn-danger" onClick={onConfirm}>{confirmLabel}</button>
+                    </div>
+                </div>
+            </div>
+        );
+
+        /* =====================================================================
+           NEW: NoticeBrowser – search, filter, sort and list notices
+           ===================================================================== */
+        function NoticeBrowser({ notices, api, query, setQuery, lockCategory = false, tagOptions = null, emptyTitle, emptyText, emptyIcon = 'inbox' }) {
+            const [dept, setDept] = useState('All');
+            const [category, setCategory] = useState('All');
+            const [readFilter, setReadFilter] = useState('All');
+            const [sort, setSort] = useState('newest');
+            const [tag, setTag] = useState('All');
+
+            const deptOptions = useMemo(() => {
+                const present = new Set(notices.map(n => n.dept));
+                return [...DEPARTMENTS.map(d => d.id), 'ALL'].filter(id => present.has(id));
+            }, [notices]);
+            const categoryOptions = useMemo(() => [...new Set(notices.map(n => n.category))], [notices]);
+
+            const filtered = useMemo(() => {
+                const q = query.trim().toLowerCase();
+                const list = notices.filter(n => {
+                    if (q && !(`${n.title} ${n.desc} ${n.dept} ${n.category} ${n.tag}`.toLowerCase().includes(q))) return false;
+                    if (dept !== 'All' && n.dept !== dept) return false;
+                    if (!lockCategory && category !== 'All' && n.category !== category) return false;
+                    if (tag !== 'All' && n.tag !== tag) return false;
+                    if (readFilter === 'Unread' && api.isRead(n.id)) return false;
+                    if (readFilter === 'Read' && !api.isRead(n.id)) return false;
+                    return true;
+                });
+                list.sort((a, b) => (sort === 'newest' ? byNewest(a, b) : byNewest(b, a)));
+                return list;
+            }, [notices, query, dept, category, tag, readFilter, sort, lockCategory, api.readIds]);
+
+            const filtersActive = query.trim() || dept !== 'All' || category !== 'All' || tag !== 'All' || readFilter !== 'All';
+            const clearAll = () => { setQuery(''); setDept('All'); setCategory('All'); setTag('All'); setReadFilter('All'); };
+
+            return (
+                <div>
+                    <div className="filters-bar">
+                        {deptOptions.length > 1 && (
+                            <div className="filter-field">
+                                <label htmlFor="f-dept">Department</label>
+                                <select id="f-dept" value={dept} onChange={(e) => setDept(e.target.value)}>
+                                    <option value="All">All departments</option>
+                                    {deptOptions.map(id => <option key={id} value={id}>{id === 'ALL' ? 'Common (all depts)' : id}</option>)}
+                                </select>
+                            </div>
+                        )}
+                        {!lockCategory && categoryOptions.length > 1 && (
+                            <div className="filter-field">
+                                <label htmlFor="f-cat">Category</label>
+                                <select id="f-cat" value={category} onChange={(e) => setCategory(e.target.value)}>
+                                    <option value="All">All categories</option>
+                                    {categoryOptions.map(c => <option key={c} value={c}>{c}</option>)}
+                                </select>
+                            </div>
+                        )}
+                        <div className="filter-field">
+                            <label htmlFor="f-read">Read status</label>
+                            <select id="f-read" value={readFilter} onChange={(e) => setReadFilter(e.target.value)}>
+                                <option value="All">All</option>
+                                <option value="Unread">Unread</option>
+                                <option value="Read">Read</option>
+                            </select>
+                        </div>
+                        <div className="filter-field">
+                            <label htmlFor="f-sort">Sort by</label>
+                            <select id="f-sort" value={sort} onChange={(e) => setSort(e.target.value)}>
+                                <option value="newest">Newest first</option>
+                                <option value="oldest">Oldest first</option>
+                            </select>
+                        </div>
+                        {filtersActive && <button className="btn btn-ghost" onClick={clearAll}><Icon name="x" size={14} /> Clear filters</button>}
+                    </div>
+
+                    {tagOptions && (
+                        <div className="tag-chips">
+                            {['All', ...tagOptions].map(t => (
+                                <button key={t} type="button" className={`dept-badge-btn ${tag === t ? 'active' : ''}`} onClick={() => setTag(t)}>{t}</button>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="results-line">
+                        <span>Showing <strong>{filtered.length}</strong> of {notices.length} notices{query.trim() ? <> for “{query.trim()}”</> : null}</span>
+                    </div>
+
+                    {filtered.length > 0 ? (
+                        <div className={`feed-grid ${api.compact ? 'compact' : ''}`}>
+                            {filtered.map(n => <NoticeCard key={n.id} n={n} api={api} />)}
+                        </div>
+                    ) : notices.length === 0 ? (
+                        <EmptyState icon={emptyIcon} title={emptyTitle || 'No notices available'} text={emptyText || 'There is nothing to show here yet. Check back later.'} />
+                    ) : (
+                        <EmptyState icon="search" title="No notices match your filters" text="Try a different keyword or clear the filters to see everything again."
+                                    action={<button className="btn btn-primary" onClick={clearAll}>Clear filters</button>} />
+                    )}
+                </div>
+            );
+        }
+
+        /* =====================================================================
+           NEW: Portal views
+           ===================================================================== */
+        function DashboardView({ user, stats, visible, api, goTo }) {
+            const dept = DEPARTMENTS.find(d => d.id === user.department) || DEPARTMENTS[0];
+            const priority = visible.filter(n => (n.pinned || n.important || n.priority === 'High') && getStatus(n) !== 'Expired')
+                .sort((a, b) => (Number(b.pinned) - Number(a.pinned)) || byNewest(a, b)).slice(0, 4);
+            const latest = visible.filter(n => n.dept === 'ALL').sort(byNewest).slice(0, 4);
+            const recent = visible.filter(n => Date.now() - new Date(n.published).getTime() < 3 * MS_DAY).sort(byNewest).slice(0, 5);
+            const events = getUpcomingEvents(visible).slice(0, 4);
+
+            return (
+                <>
+                    <div className="welcome-card">
+                        <div>
+                            <h2>Welcome back, {user.name}!</h2>
+                            <p>Here’s what’s happening in {dept.name} today.</p>
+                        </div>
+                        <div className="profile-strip">
+                            <span className="avatar">{initials(user.name)}</span>
+                            <div>
+                                <strong>{user.name}</strong>
+                                <small>{user.email}</small>
+                                <span className="dept-pill">{dept.name} · {user.role || 'Student'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="stat-grid">
+                        <button className="stat-card" onClick={() => goTo('all')}>
+                            <div className="stat-ico blue"><Icon name="inbox" size={22} /></div>
+                            <div><strong>{stats.total}</strong><span>Total notices</span></div>
+                        </button>
+                        <button className="stat-card" onClick={() => goTo('all')}>
+                            <div className="stat-ico purple"><Icon name="bell" size={22} /></div>
+                            <div><strong>{stats.unread}</strong><span>Unread notices</span></div>
+                        </button>
+                        <button className="stat-card" onClick={() => goTo('events')}>
+                            <div className="stat-ico green"><Icon name="calendar" size={22} /></div>
+                            <div><strong>{stats.events}</strong><span>Upcoming events</span></div>
+                        </button>
+                        <button className="stat-card" onClick={() => goTo('saved')}>
+                            <div className="stat-ico amber"><Icon name="bookmark" size={22} /></div>
+                            <div><strong>{stats.saved}</strong><span>Saved notices</span></div>
+                        </button>
+                    </div>
+
+                    <div className="grid-2">
+                        <div className="stack">
+                            <Panel title="Pinned & Important" icon="pin" action={<button className="link-btn" onClick={() => goTo('important')}>View all</button>}>
+                                {priority.length ? (
+                                    <div className={`feed-grid ${api.compact ? 'compact' : ''}`}>{priority.map(n => <NoticeCard key={n.id} n={n} api={api} />)}</div>
+                                ) : <EmptyState icon="star" title="Nothing important right now" text="Pinned and high-priority notices will appear here." />}
+                            </Panel>
+                            <Panel title="Latest Announcements" icon="bell" action={<button className="link-btn" onClick={() => goTo('all')}>See all</button>}>
+                                {latest.length ? latest.map(n => <NoticeRow key={n.id} n={n} api={api} />)
+                                    : <EmptyState icon="inbox" title="No announcements yet" text="Institute-wide announcements will show up here." />}
+                            </Panel>
+                        </div>
+                        <div className="stack">
+                            <Panel title="Upcoming Events" icon="calendar" action={<button className="link-btn" onClick={() => goTo('events')}>Calendar</button>}>
+                                {events.length ? events.map(n => <EventRow key={n.id} n={n} api={api} />)
+                                    : <EmptyState icon="calendar" title="No upcoming events" text="New events will be listed here with their dates." />}
+                            </Panel>
+                            <Panel title="Recently Published" icon="clock">
+                                {recent.length ? recent.map(n => <NoticeRow key={n.id} n={n} api={api} />)
+                                    : <EmptyState icon="clock" title="Nothing new" text="No notices were published in the last 3 days." />}
+                            </Panel>
+                        </div>
+                    </div>
+                </>
+            );
+        }
+
+        /* EXISTING feature kept: "Switch Department Feed" chips + dept feed */
+        function DepartmentView({ user, selectedDept, setSelectedDept, allNotices, api, query, setQuery }) {
+            const dept = DEPARTMENTS.find(d => d.id === selectedDept) || DEPARTMENTS[0];
+            const DeptIcon = dept.Icon;
+            const own = selectedDept === user.department;
+            const list = allNotices.filter(n => n.dept === selectedDept || (own && n.dept === 'ALL'));
+            const active = list.filter(n => getStatus(n) !== 'Expired').length;
+            return (
+                <>
+                    <div className="panel dept-hero">
+                        <div className="stat-ico blue"><DeptIcon size={26} color="#2563eb" /></div>
+                        <div>
+                            <h3>{dept.name} Portal</h3>
+                            <p>{active} active notice{active === 1 ? '' : 's'}{own ? ' · includes common notices for all departments' : ' · browsing another department’s feed'}</p>
+                        </div>
+                    </div>
+                    <div className="field-label-row" style={{ marginBottom: '10px' }}>
+                        <span className="field-label">Switch Department Feed</span>
+                        {!own && <button className="link-btn" onClick={() => setSelectedDept(user.department)}>Back to my department ({user.department})</button>}
+                    </div>
+                    <div className="dept-chips-container" style={{ marginBottom: '16px' }}>
+                        {DEPARTMENTS.map(d => {
+                            const DIcon = d.Icon;
+                            const isActive = selectedDept === d.id;
+                            return (
+                                <button key={d.id} type="button" className={`dept-badge-btn ${isActive ? 'active' : ''}`} onClick={() => setSelectedDept(d.id)}>
+                                    <DIcon size={14} color={isActive ? "#ffffff" : "currentColor"} />
+                                    {d.id}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <NoticeBrowser key={selectedDept} notices={list} api={api} query={query} setQuery={setQuery}
+                                   emptyTitle="No circulars found" emptyText={`There are no notices for ${dept.id} at the moment.`} />
+                </>
+            );
+        }
+
+        function ExamView({ notices, api, query, setQuery, showToast }) {
+            const [tab, setTab] = useState('notices');
+            return (
+                <>
+                    <Tabs value={tab} onChange={setTab} tabs={[{ id: 'notices', label: 'Notices & Results' }, { id: 'timetable', label: 'Exam Timetable' }]} />
+                    {tab === 'notices' ? (
+                        <NoticeBrowser notices={notices} api={api} query={query} setQuery={setQuery} lockCategory tagOptions={['Timetable', 'Result', 'Registration']}
+                                       emptyIcon="exam" emptyTitle="No examination notices" emptyText="Timetables, results and registration notices will appear here." />
+                    ) : (
+                        <Panel title="Internal Assessment-II Timetable" icon="exam"
+                               action={<button className="btn btn-ghost" onClick={() => showToast('Demo only – sample timetable PDF is not included.')}><Icon name="download" size={15} /> Download PDF</button>}>
+                            <div className="info-strip">
+                                <span>Exams begin {formatDate(EXAM_TIMETABLE[0].date)} · {relativeDay(EXAM_TIMETABLE[0].date)}</span>
+                                <span>{EXAM_TIMETABLE.length} papers</span>
+                            </div>
+                            <div className="table-wrap">
+                                <table className="data-table">
+                                    <thead><tr><th>Date</th><th>Subject</th><th>Code</th><th>Branch</th><th>Time</th><th>Venue</th></tr></thead>
+                                    <tbody>
+                                        {EXAM_TIMETABLE.map(r => (
+                                            <tr key={r.code}>
+                                                <td><strong>{formatShort(r.date)}</strong><br /><small style={{ color: 'var(--muted)' }}>{new Date(r.date).toLocaleDateString('en-IN', { weekday: 'short' })}</small></td>
+                                                <td>{r.subject}</td><td>{r.code}</td><td>{r.branch}</td><td>{r.time}</td><td>{r.venue}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </Panel>
+                    )}
+                </>
+            );
+        }
+
+        function AcademicCalendar({ items, onOpenNotice }) {
+            const today = new Date();
+            const [cursor, setCursor] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
+            const [selected, setSelected] = useState(null);
+            const year = cursor.getFullYear();
+            const month = cursor.getMonth();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const lead = new Date(year, month, 1).getDay();
+
+            const byDay = useMemo(() => {
+                const m = {};
+                items.forEach(it => { const k = dateKey(new Date(it.date)); (m[k] = m[k] || []).push(it); });
+                return m;
+            }, [items]);
+
+            const monthItems = items.filter(it => { const d = new Date(it.date); return d.getFullYear() === year && d.getMonth() === month; })
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+            const listItems = selected ? (byDay[selected] || []) : monthItems;
+            const move = (delta) => { setCursor(new Date(year, month + delta, 1)); setSelected(null); };
+
+            const cells = [];
+            for (let i = 0; i < lead; i++) cells.push(null);
+            for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+
+            return (
+                <div className="panel">
+                    <div className="cal-head">
+                        <h3>{cursor.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</h3>
+                        <div className="cal-nav">
+                            <button className="icon-btn sm" onClick={() => move(-1)} aria-label="Previous month"><Icon name="left" size={16} /></button>
+                            <button className="btn btn-ghost" onClick={() => { setCursor(new Date(today.getFullYear(), today.getMonth(), 1)); setSelected(null); }}>Today</button>
+                            <button className="icon-btn sm" onClick={() => move(1)} aria-label="Next month"><Icon name="right" size={16} /></button>
+                        </div>
+                    </div>
+                    <div className="cal-grid">
+                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => <div key={d} className="cal-dow">{d}</div>)}
+                        {cells.map((d, i) => {
+                            if (d === null) return <div key={`e${i}`} className="cal-day empty" />;
+                            const k = dateKey(new Date(year, month, d));
+                            const types = [...new Set((byDay[k] || []).map(x => x.type))].slice(0, 4);
+                            return (
+                                <button key={k} className={`cal-day ${k === dateKey(today) ? 'today' : ''} ${selected === k ? 'selected' : ''}`}
+                                        onClick={() => setSelected(selected === k ? null : k)}>
+                                    <span>{d}</span>
+                                    <span className="cal-dots">{types.map(t => <i key={t} style={{ background: TYPE_META[t].color }} />)}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div className="cal-legend">
+                        {Object.entries(TYPE_META).map(([k, v]) => <span key={k}><i style={{ background: v.color }} />{v.label}</span>)}
+                    </div>
+                    <div className="panel-head" style={{ marginTop: 6 }}>
+                        <h3>{selected ? 'Selected day' : 'Key dates this month'}</h3>
+                        {selected && <button className="link-btn" onClick={() => setSelected(null)}>Show whole month</button>}
+                    </div>
+                    {listItems.length ? listItems.map((it, i) => {
+                        const d = new Date(it.date);
+                        return (
+                            <div key={`${it.title}-${i}`} className="event-row" style={it.noticeId ? {} : { cursor: 'default' }}
+                                 onClick={() => it.noticeId && onOpenNotice(it.noticeId)}>
+                                <div className="date-block" style={{ background: TYPE_META[it.type].color }}>
+                                    <span>{d.toLocaleDateString('en-IN', { month: 'short' })}</span><strong>{d.getDate()}</strong>
+                                </div>
+                                <div className="row-main"><h5>{it.title}</h5><small>{TYPE_META[it.type].label} · {relativeDay(it.date)}</small></div>
+                            </div>
+                        );
+                    }) : <EmptyState icon="calendar" title="No entries" text="Nothing is scheduled for this selection." />}
+                </div>
+            );
+        }
+
+        function EventsView({ allVisible, eventNotices, calendarItems, api, query, setQuery }) {
+            const [tab, setTab] = useState('upcoming');
+            const upcoming = getUpcomingEvents(allVisible);
+            return (
+                <>
+                    <Tabs value={tab} onChange={setTab} tabs={[{ id: 'upcoming', label: 'Upcoming Events' }, { id: 'calendar', label: 'Academic Calendar' }, { id: 'notices', label: 'Event Notices' }]} />
+                    {tab === 'upcoming' && (upcoming.length
+                        ? <div className="event-list">{upcoming.map(n => <EventRow key={n.id} n={n} api={api} />)}</div>
+                        : <EmptyState icon="calendar" title="No upcoming events" text="Events and activities will be listed here with their dates." />)}
+                    {tab === 'calendar' && <AcademicCalendar items={calendarItems} onOpenNotice={api.openNotice} />}
+                    {tab === 'notices' && <NoticeBrowser notices={eventNotices} api={api} query={query} setQuery={setQuery} lockCategory emptyIcon="calendar"
+                                                         emptyTitle="No event notices" emptyText="Hackathons, workshops and fests will appear here." />}
+                </>
+            );
+        }
+
+        function PlacementView({ notices, api, query, setQuery }) {
+            const open = notices.filter(n => getStatus(n) !== 'Expired');
+            const drives = open.filter(n => n.tag === 'Drive').length;
+            const interns = open.filter(n => n.tag === 'Internship').length;
+            const closing = open.filter(n => n.deadline && dayDiff(n.deadline) <= 3).length;
+            return (
+                <>
+                    <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 0 }}>
+                        <div className="stat-card" style={{ cursor: 'default' }}><div className="stat-ico blue"><Icon name="briefcase" size={22} /></div><div><strong>{drives}</strong><span>Active drives</span></div></div>
+                        <div className="stat-card" style={{ cursor: 'default' }}><div className="stat-ico green"><Icon name="user" size={22} /></div><div><strong>{interns}</strong><span>Internships</span></div></div>
+                        <div className="stat-card" style={{ cursor: 'default' }}><div className="stat-ico amber"><Icon name="clock" size={22} /></div><div><strong>{closing}</strong><span>Closing within 3 days</span></div></div>
+                    </div>
+                    <NoticeBrowser notices={notices} api={api} query={query} setQuery={setQuery} lockCategory tagOptions={['Drive', 'Internship', 'Prep']}
+                                   emptyIcon="briefcase" emptyTitle="No placement notices" emptyText="Campus drives and internship openings will be announced here." />
+                </>
+            );
+        }
+
+        function ProfileView({ user, stats, onUpdateUser, showToast }) {
+            const [editing, setEditing] = useState(false);
+            const [form, setForm] = useState({});
+            const [errors, setErrors] = useState({});
+            const dept = DEPARTMENTS.find(d => d.id === user.department) || DEPARTMENTS[0];
+            const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+            const startEdit = () => {
+                setForm({ name: user.name, department: user.department, year: user.year || '', phone: user.phone || '', about: user.about || '' });
+                setErrors({});
+                setEditing(true);
+            };
+            const save = (e) => {
+                e.preventDefault();
+                const errs = {};
+                if (form.name.trim().length < 2) errs.name = 'Please enter your full name.';
+                if (form.phone && !/^[0-9+\-\s]{7,15}$/.test(form.phone)) errs.phone = 'Enter a valid phone number.';
+                setErrors(errs);
+                if (Object.keys(errs).length) return;
+                onUpdateUser({ name: form.name.trim(), department: form.department, year: form.year, phone: form.phone.trim(), about: form.about.trim() });
+                setEditing(false);
+                showToast('Profile updated successfully');
             };
 
             return (
-                <div className="auth-wrapper">
-                    {!isLoggedIn ? (
-                        <>
-                            {/* LEFT SIDE: Clean Form Panel */}
-                            <div className="auth-form-side">
-                                <div>
-                                    <div className="brand-bar">
-                                        <div className="brand-logo">
-                                            <div className="logo-symbol">N</div>
-                                            <span className="logo-text">NoticeHub</span>
-                                        </div>
-                                        <div className="live-tag">
-                                            <span className="live-dot"></span>
-                                            <span>Campus Live</span>
-                                        </div>
+                <div className="profile-grid">
+                    <div className="panel profile-card">
+                        <div className="profile-cover" />
+                        <span className="avatar lg">{initials(user.name)}</span>
+                        <h3>{user.name}</h3>
+                        <p>{user.email}</p>
+                        <span className="dept-tag" style={{ display: 'inline-block', marginTop: 8 }}>{dept.name} · {user.role || 'Student'}</span>
+                        <div className="mini-stats">
+                            <div><strong>{stats.read}</strong><small>Read</small></div>
+                            <div><strong>{stats.saved}</strong><small>Saved</small></div>
+                            <div><strong>{stats.unread}</strong><small>Unread</small></div>
+                        </div>
+                    </div>
+                    <Panel title="User Details" icon="user" action={!editing && <button className="btn btn-ghost" onClick={startEdit}><Icon name="edit" size={15} /> Edit profile</button>}>
+                        {!editing ? (
+                            <div className="detail-list">
+                                <div><small>Full name</small><span>{user.name}</span></div>
+                                <div><small>Email</small><span>{user.email}</span></div>
+                                <div><small>Role</small><span>{user.role || 'Student'}</span></div>
+                                <div><small>Department</small><span>{dept.name}</span></div>
+                                <div><small>Year of study</small><span>{user.year || 'Not set'}</span></div>
+                                <div><small>Phone</small><span>{user.phone || 'Not set'}</span></div>
+                                <div><small>Member since</small><span>{formatDate(user.createdAt || new Date().toISOString())}</span></div>
+                                <div className="full"><small>About</small><span>{user.about || 'Add a short bio using Edit profile.'}</span></div>
+                            </div>
+                        ) : (
+                            <form onSubmit={save} noValidate>
+                                <div className="form-grid">
+                                    <div className="field">
+                                        <label htmlFor="p-name">Full name</label>
+                                        <input id="p-name" value={form.name} onChange={(e) => set('name', e.target.value)} />
+                                        {errors.name && <div className="field-error">{errors.name}</div>}
                                     </div>
-
-                                    <div className="form-heading-area">
-                                        <h1>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h1>
-                                        <p>
-                                            {mode === 'login' 
-                                                ? 'Enter your institutional credentials to view circulars.'
-                                                : 'Register to access departmental announcements in real time.'}
-                                        </p>
+                                    <div className="field">
+                                        <label htmlFor="p-email">Email (cannot be changed)</label>
+                                        <input id="p-email" value={user.email} disabled />
                                     </div>
-
-                                    {/* Direct Fast SSO */}
-                                    <div className="sso-buttons">
-                                        <button 
-                                            type="button" 
-                                            className="sso-btn"
-                                            onClick={() => handleFastSSO('Google')}
-                                        >
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
-                                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
-                                            </svg>
-                                            Google SSO
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            className="sso-btn"
-                                            onClick={() => handleFastSSO('Portal')}
-                                        >
-                                            <IconBuilding size={17} color="#2563eb" />
-                                            College Portal
-                                        </button>
+                                    <div className="field">
+                                        <label htmlFor="p-dept">Department</label>
+                                        <select id="p-dept" value={form.department} onChange={(e) => set('department', e.target.value)}>
+                                            {DEPARTMENTS.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                                        </select>
                                     </div>
-
-                                    <div className="divider">
-                                        <span>or continue with email</span>
+                                    <div className="field">
+                                        <label htmlFor="p-year">Year of study</label>
+                                        <select id="p-year" value={form.year} onChange={(e) => set('year', e.target.value)}>
+                                            <option value="">Select year</option>
+                                            {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                                        </select>
                                     </div>
-
-                                    {/* Department Chips with Inline SVG */}
-                                    <div className="field-label-row">
-                                        <span className="field-label">Select Department</span>
-                                        <span style={{ fontSize: '0.78rem', color: '#2563eb', fontWeight: '700' }}>
-                                            {currentDept.count} circulars active
-                                        </span>
+                                    <div className="field full">
+                                        <label htmlFor="p-phone">Phone</label>
+                                        <input id="p-phone" value={form.phone} placeholder="+91 98765 43210" onChange={(e) => set('phone', e.target.value)} />
+                                        {errors.phone && <div className="field-error">{errors.phone}</div>}
                                     </div>
-                                    <div className="dept-chips-container">
-                                        {DEPARTMENTS.map(d => {
-                                            const DeptIcon = d.Icon;
-                                            const isActive = selectedDept === d.id;
-                                            return (
-                                                <button
-                                                    key={d.id}
-                                                    type="button"
-                                                    className={`dept-badge-btn ${isActive ? 'active' : ''}`}
-                                                    onClick={() => setSelectedDept(d.id)}
-                                                >
-                                                    <DeptIcon size={14} color={isActive ? "#ffffff" : "#475569"} />
-                                                    {d.id}
-                                                </button>
-                                            );
-                                        })}
+                                    <div className="field full">
+                                        <label htmlFor="p-about">About</label>
+                                        <textarea id="p-about" value={form.about} placeholder="A short bio" onChange={(e) => set('about', e.target.value)} />
                                     </div>
-
-                                    <form onSubmit={handleAuth}>
-                                        {mode === 'signup' && (
-                                            <div className="form-row">
-                                                <div className="field-label-row">
-                                                    <span className="field-label">Full Name</span>
-                                                </div>
-                                                <div className="input-box">
-                                                    <span className="input-icon">
-                                                        <IconUser size={17} color="#94a3b8" />
-                                                    </span>
-                                                    <input 
-                                                        type="text" 
-                                                        placeholder="Ayush Shukla" 
-                                                        value={fullName}
-                                                        onChange={(e) => setFullName(e.target.value)}
-                                                        required 
-                                                    />
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        <div className="form-row">
-                                            <div className="field-label-row">
-                                                <span className="field-label">Email Address</span>
-                                            </div>
-                                            <div className="input-box">
-                                                <span className="input-icon">
-                                                    <IconMail size={17} color="#94a3b8" />
-                                                </span>
-                                                <input 
-                                                    type="email" 
-                                                    placeholder="ayush@college.edu" 
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                    required 
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-row">
-                                            <div className="field-label-row">
-                                                <span className="field-label">Password</span>
-                                            </div>
-                                            <div className="input-box">
-                                                <span className="input-icon">
-                                                    <IconLock size={17} color="#94a3b8" />
-                                                </span>
-                                                <input 
-                                                    type={showPassword ? 'text' : 'password'} 
-                                                    placeholder="••••••••" 
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    required 
-                                                />
-                                                <button 
-                                                    type="button" 
-                                                    className="show-pass-btn"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                >
-                                                    {showPassword ? 'Hide' : 'Show'}
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {mode === 'login' && (
-                                            <div className="row-options">
-                                                <label>
-                                                    <input type="checkbox" defaultChecked /> Remember me
-                                                </label>
-                                                <a href="#" onClick={(e) => { e.preventDefault(); alert('Password recovery link sent to your college email.'); }}>
-                                                    Forgot password?
-                                                </a>
-                                            </div>
-                                        )}
-
-                                        <button type="submit" className="btn-submit-main">
-                                            <span>{mode === 'login' ? `Enter ${selectedDept} Portal` : 'Create Account'}</span>
-                                            <span>→</span>
-                                        </button>
-                                    </form>
                                 </div>
+                                <div className="modal-actions" style={{ marginTop: 18 }}>
+                                    <button type="button" className="btn btn-ghost" onClick={() => setEditing(false)}>Cancel</button>
+                                    <button type="submit" className="btn btn-primary"><Icon name="check" size={15} /> Save changes</button>
+                                </div>
+                            </form>
+                        )}
+                    </Panel>
+                </div>
+            );
+        }
 
-                                <div className="form-bottom-link">
-                                    {mode === 'login' ? "Don't have an account yet?" : "Already have an account?"}
-                                    <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
-                                        {mode === 'login' ? 'Sign up' : 'Sign in'}
+        function SettingsView({ theme, setTheme, settings, updateSetting, onResetActivity, onRestoreNotices }) {
+            return (
+                <div className="stack" style={{ maxWidth: 760 }}>
+                    <Panel title="Appearance" icon="sun">
+                        <div className="setting-row">
+                            <div><h4>Dark mode</h4><p>Switch between the light and dark interface. Saved on this device.</p></div>
+                            <Toggle label="Dark mode" checked={theme === 'dark'} onChange={(v) => setTheme(v ? 'dark' : 'light')} />
+                        </div>
+                        <div className="setting-row">
+                            <div><h4>Compact notice cards</h4><p>Hide descriptions to fit more notices on screen.</p></div>
+                            <Toggle label="Compact cards" checked={settings.compact} onChange={(v) => updateSetting('compact', v)} />
+                        </div>
+                    </Panel>
+                    <Panel title="Notices & Notifications" icon="bell">
+                        <div className="setting-row">
+                            <div><h4>High-priority alerts</h4><p>Show unread high-priority notices in the notification bell, not just new ones.</p></div>
+                            <Toggle label="High priority alerts" checked={settings.alertHigh} onChange={(v) => updateSetting('alertHigh', v)} />
+                        </div>
+                        <div className="setting-row">
+                            <div><h4>Hide expired notices</h4><p>Remove notices whose deadline has passed from your lists.</p></div>
+                            <Toggle label="Hide expired" checked={settings.hideExpired} onChange={(v) => updateSetting('hideExpired', v)} />
+                        </div>
+                        <div className="setting-row">
+                            <div><h4>Show notices from all departments</h4><p>By default you see your department, common notices, T&amp;P and Exam Cell.</p></div>
+                            <Toggle label="Show all departments" checked={settings.showAllDepts} onChange={(v) => updateSetting('showAllDepts', v)} />
+                        </div>
+                    </Panel>
+                    <Panel title="Data" icon="settings">
+                        <div className="setting-row">
+                            <div><h4>Reset read &amp; saved notices</h4><p>Marks everything unread and clears your bookmarks.</p></div>
+                            <button className="btn btn-ghost" onClick={onResetActivity}>Reset</button>
+                        </div>
+                        <div className="setting-row">
+                            <div><h4>Restore sample notices</h4><p>Reloads the original demo notices with fresh dates.</p></div>
+                            <button className="btn btn-ghost" onClick={onRestoreNotices}>Restore</button>
+                        </div>
+                    </Panel>
+                </div>
+            );
+        }
+
+        /* =====================================================================
+           NEW: Sidebar + Topbar
+           ===================================================================== */
+        const NAV_GROUPS = [
+            { label: 'Overview', items: [
+                { id: 'dashboard', label: 'Dashboard', icon: 'home' },
+                { id: 'all', label: 'All Notices', icon: 'inbox' },
+                { id: 'department', label: 'My Department', icon: 'building' }
+            ]},
+            { label: 'Categories', items: [
+                { id: 'academic', label: 'Academic Updates', icon: 'book' },
+                { id: 'exam', label: 'Examination Notices', icon: 'exam' },
+                { id: 'events', label: 'Events & Activities', icon: 'calendar' },
+                { id: 'placement', label: 'Placement & Internship', icon: 'briefcase' },
+                { id: 'important', label: 'Important Notices', icon: 'star' }
+            ]},
+            { label: 'Library', items: [{ id: 'saved', label: 'Saved Notices', icon: 'bookmark' }] },
+            { label: 'Account', items: [
+                { id: 'profile', label: 'Profile', icon: 'user' },
+                { id: 'settings', label: 'Settings', icon: 'settings' }
+            ]}
+        ];
+
+        const VIEW_META = {
+            dashboard: ['Dashboard', 'Your campus overview at a glance'],
+            all: ['All Notices', 'Everything relevant to you, in one place'],
+            department: ['My Department', 'Department feed and common notices'],
+            academic: ['Academic Updates', 'Assignments, projects, syllabus and attendance'],
+            exam: ['Examination Notices', 'Timetables, results and registrations'],
+            events: ['Events & Activities', 'Upcoming events, academic calendar and activities'],
+            placement: ['Placement & Internship', 'Campus drives, internships and preparation sessions'],
+            important: ['Important Notices', 'High-priority and pinned notices that need attention'],
+            saved: ['Saved Notices', 'Notices you have bookmarked'],
+            profile: ['Profile', 'View and edit your details'],
+            settings: ['Settings', 'Personalise your portal']
+        };
+        const SIMPLE_BROWSER_VIEWS = ['all', 'department', 'academic', 'important', 'saved', 'placement'];
+
+        function Sidebar({ view, goTo, counts, open, onLogout }) {
+            return (
+                <aside className={`sidebar ${open ? 'open' : ''}`}>
+                    <div className="sidebar-brand">
+                        <div className="logo-symbol">N</div>
+                        <div>
+                            <span className="logo-text">NoticeHub</span>
+                            <span className="inst-subtitle">ABESEC Ghaziabad</span>
+                        </div>
+                    </div>
+                    <nav className="sidebar-nav">
+                        {NAV_GROUPS.map(g => (
+                            <div key={g.label}>
+                                <div className="nav-label">{g.label}</div>
+                                {g.items.map(it => (
+                                    <button key={it.id} className={`nav-item ${view === it.id ? 'active' : ''}`} onClick={() => goTo(it.id)}>
+                                        <Icon name={it.icon} size={18} />
+                                        <span className="nav-text">{it.label}</span>
+                                        {counts[it.id] > 0 && <span className={`nav-count ${it.id === 'all' ? '' : 'soft'}`}>{counts[it.id]}</span>}
                                     </button>
-                                </div>
+                                ))}
                             </div>
+                        ))}
+                    </nav>
+                    <div className="sidebar-footer">
+                        <button className="nav-item logout" onClick={onLogout}><Icon name="logout" size={18} /><span className="nav-text">Logout</span></button>
+                    </div>
+                </aside>
+            );
+        }
 
-                            {/* RIGHT SIDE: Clean Showcase Hero Panel */}
-                            <div className="auth-showcase-side">
-                                <div className="showcase-circle-1"></div>
-                                <div className="showcase-circle-2"></div>
+        /* =====================================================================
+           NEW: Portal – the logged-in application shell
+           ===================================================================== */
+        function Portal({ user, selectedDept, setSelectedDept, onLogout, onUpdateUser }) {
+            const [theme, setTheme] = useState(() => storage.get(STORAGE_KEYS.theme, 'light'));
+            const [notices, setNotices] = useState(loadNotices);
+            const [userData, setUserData] = useState(() => loadUserData(user.email));
+            const [view, setView] = useState('dashboard');
+            const [query, setQuery] = useState('');
+            const [modalId, setModalId] = useState(null);
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+            const [notifOpen, setNotifOpen] = useState(false);
+            const [confirm, setConfirm] = useState(null);
+            const [toast, setToast] = useState(null);
+            const toastTimer = useRef(null);
+            const notifRef = useRef(null);
+            const settings = userData.settings;
 
-                                <div className="hero-top">
-                                    <div className="hero-badge-pill">
-                                        <IconZap size={13} color="#ffffff" />
-                                        <span>Live Campus Network</span>
-                                    </div>
-                                    <h2>Department-Wise<br/>Digital Notice Board</h2>
-                                    <p>
-                                        Direct access to verified circulars, exam schedules, and placement updates across all campus branches.
-                                    </p>
-                                </div>
+            /* Persistence */
+            useEffect(() => { storage.set(STORAGE_KEYS.theme, theme); }, [theme]);
+            useEffect(() => { storage.set(STORAGE_KEYS.notices, notices); }, [notices]);
+            useEffect(() => { storage.set(STORAGE_KEYS.userData(user.email), userData); }, [userData]);
 
-                                {/* Clean Feature Highlights with SVGs */}
-                                <div className="features-clean-panel">
-                                    <div className="feature-item">
-                                        <div className="feature-icon-box">
-                                            <IconBuilding size={20} color="#ffffff" />
-                                        </div>
-                                        <div className="feature-text">
-                                            <h4>Department Categorization</h4>
-                                            <p>Filter announcements by branch (CSE, IT, ECE, ME, Civil) instantly.</p>
-                                        </div>
-                                    </div>
+            /* Close notification panel on outside click; Esc closes the top-most layer */
+            useEffect(() => {
+                if (!notifOpen) return;
+                const handler = (e) => { if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false); };
+                document.addEventListener('mousedown', handler);
+                return () => document.removeEventListener('mousedown', handler);
+            }, [notifOpen]);
+            useEffect(() => {
+                const onKey = (e) => {
+                    if (e.key !== 'Escape') return;
+                    if (confirm) setConfirm(null);
+                    else if (modalId) setModalId(null);
+                    else if (notifOpen) setNotifOpen(false);
+                    else if (sidebarOpen) setSidebarOpen(false);
+                };
+                window.addEventListener('keydown', onKey);
+                return () => window.removeEventListener('keydown', onKey);
+            }, [confirm, modalId, notifOpen, sidebarOpen]);
 
-                                    <div className="feature-item">
-                                        <div className="feature-icon-box">
-                                            <IconZap size={20} color="#ffffff" />
-                                        </div>
-                                        <div className="feature-text">
-                                            <h4>Real-Time Announcements</h4>
-                                            <p>Direct updates from Dean, Examination Cell, and Training & Placement.</p>
-                                        </div>
-                                    </div>
+            const showToast = (msg) => {
+                setToast(msg);
+                clearTimeout(toastTimer.current);
+                toastTimer.current = setTimeout(() => setToast(null), 2400);
+            };
 
-                                    <div className="feature-item">
-                                        <div className="feature-icon-box">
-                                            <IconDevice size={20} color="#ffffff" />
-                                        </div>
-                                        <div className="feature-text">
-                                            <h4>Zero Paper Wastage</h4>
-                                            <p>Eco-friendly, digital-first communication across all smart displays.</p>
-                                        </div>
-                                    </div>
-                                </div>
+            /* Notice visibility: own dept + common (ALL) + central cells, unless user opts into everything */
+            const visible = useMemo(() => notices
+                .filter(n => settings.showAllDepts || n.dept === user.department || n.dept === 'ALL' || CENTRAL_CELLS.includes(n.dept))
+                .filter(n => !(settings.hideExpired && getStatus(n) === 'Expired')),
+            [notices, user.department, settings.showAllDepts, settings.hideExpired]);
 
-                                {/* Bottom Social Proof */}
-                                <div className="showcase-footer">
-                                    <div className="student-avatars">
-                                        <div className="avatar-circle">AS</div>
-                                        <div className="avatar-circle">RK</div>
-                                        <div className="avatar-circle">PS</div>
-                                        <div className="avatar-circle">+7</div>
-                                    </div>
-                                    <div className="avatar-info-text">
-                                        <strong>2,400+ Active</strong><br/>
-                                        Students & Faculty Connected
-                                    </div>
-                                </div>
+            /* Read / saved actions */
+            const isRead = (id) => userData.read.includes(id);
+            const isSaved = (id) => userData.saved.includes(id);
+            const markRead = (id) => setUserData(u => u.read.includes(id) ? u : { ...u, read: [...u.read, id] });
+            const toggleRead = (id) => setUserData(u => ({ ...u, read: u.read.includes(id) ? u.read.filter(x => x !== id) : [...u.read, id] }));
+            const toggleSave = (id) => {
+                const was = userData.saved.includes(id);
+                setUserData(u => ({ ...u, saved: was ? u.saved.filter(x => x !== id) : [...u.saved, id] }));
+                showToast(was ? 'Removed from saved notices' : 'Notice saved');
+            };
+            const openNotice = (id) => { setModalId(id); markRead(id); setNotifOpen(false); };
+            const updateSetting = (key, value) => setUserData(u => ({ ...u, settings: { ...u.settings, [key]: value } }));
+
+            const api = { isRead, isSaved, toggleRead, toggleSave, openNotice, compact: settings.compact, readIds: userData.read };
+
+            /* Notifications = unread, not expired, and (new or high priority) */
+            const notifications = useMemo(() => visible
+                .filter(n => !userData.read.includes(n.id) && getStatus(n) !== 'Expired' && (isNew(n) || (settings.alertHigh && n.priority === 'High')))
+                .sort(byNewest), [visible, userData.read, settings.alertHigh]);
+
+            const stats = {
+                total: visible.length,
+                unread: visible.filter(n => !userData.read.includes(n.id)).length,
+                events: getUpcomingEvents(visible).length,
+                saved: notices.filter(n => userData.saved.includes(n.id)).length,
+                read: visible.filter(n => userData.read.includes(n.id)).length
+            };
+            const counts = {
+                all: stats.unread,
+                saved: stats.saved,
+                important: visible.filter(isImportantNotice).length
+            };
+
+            const calendarItems = useMemo(() => [
+                ...ACADEMIC_CALENDAR,
+                ...visible.filter(n => n.eventDate).map(n => ({ date: n.eventDate, title: n.title, type: 'event', noticeId: n.id })),
+                ...visible.filter(n => n.deadline).map(n => ({ date: n.deadline, title: `Deadline: ${n.title}`, type: 'deadline', noticeId: n.id }))
+            ], [visible]);
+
+            /* Navigation */
+            const goTo = (id) => { setView(id); setQuery(''); setSidebarOpen(false); setNotifOpen(false); window.scrollTo(0, 0); };
+            const handleSearch = (val) => {
+                setQuery(val);
+                if (val.trim() && !SIMPLE_BROWSER_VIEWS.includes(view)) setView('all');
+            };
+
+            const requestLogout = () => setConfirm({
+                title: 'Sign out of NoticeHub?',
+                message: 'You will need to sign in again to view your notices. Your saved notices and settings are kept on this device.',
+                confirmLabel: 'Yes, sign out',
+                onConfirm: onLogout
+            });
+            const resetActivity = () => setConfirm({
+                title: 'Reset read & saved notices?',
+                message: 'All notices will be marked unread and your bookmarks will be cleared.',
+                confirmLabel: 'Yes, reset',
+                onConfirm: () => { setUserData(u => ({ ...u, read: [], saved: [] })); setConfirm(null); showToast('Read and saved notices reset'); }
+            });
+            const restoreNotices = () => setConfirm({
+                title: 'Restore sample notices?',
+                message: 'The demo notices are reloaded with fresh dates. Your read and saved lists are kept.',
+                confirmLabel: 'Yes, restore',
+                onConfirm: () => { setNotices(buildSeedNotices()); setConfirm(null); showToast('Sample notices restored'); }
+            });
+
+            const modalNotice = notices.find(n => n.id === modalId);
+            const meta = VIEW_META[view];
+            const dept = DEPARTMENTS.find(d => d.id === user.department) || DEPARTMENTS[0];
+
+            const renderView = () => {
+                const common = { api, query, setQuery };
+                switch (view) {
+                    case 'dashboard': return <DashboardView user={user} stats={stats} visible={visible} api={api} goTo={goTo} />;
+                    case 'all': return <NoticeBrowser notices={visible} {...common} emptyTitle="No notices available" emptyText="There are no notices for your department yet." />;
+                    case 'department': return <DepartmentView user={user} selectedDept={selectedDept} setSelectedDept={setSelectedDept} allNotices={notices} {...common} />;
+                    case 'academic': return <NoticeBrowser notices={visible.filter(n => n.category === 'Academic')} {...common} lockCategory emptyIcon="book" emptyTitle="No academic updates" emptyText="Assignments, projects and syllabus changes will appear here." />;
+                    case 'exam': return <ExamView notices={visible.filter(n => n.category === 'Examination')} {...common} showToast={showToast} />;
+                    case 'events': return <EventsView allVisible={visible} eventNotices={visible.filter(n => n.category === 'Events')} calendarItems={calendarItems} {...common} />;
+                    case 'placement': return <PlacementView notices={visible.filter(n => n.category === 'Placement')} {...common} />;
+                    case 'important': return <NoticeBrowser notices={visible.filter(isImportantNotice)} {...common} emptyIcon="star" emptyTitle="No important notices" emptyText="High-priority and pinned notices will be highlighted here." />;
+                    case 'saved': return <NoticeBrowser notices={notices.filter(n => userData.saved.includes(n.id))} {...common} emptyIcon="bookmark" emptyTitle="No saved notices yet" emptyText="Tap the bookmark icon on any notice to keep it here for later." />;
+                    case 'profile': return <ProfileView user={user} stats={stats} onUpdateUser={onUpdateUser} showToast={showToast} />;
+                    case 'settings': return <SettingsView theme={theme} setTheme={setTheme} settings={settings} updateSetting={updateSetting} onResetActivity={resetActivity} onRestoreNotices={restoreNotices} />;
+                    default: return null;
+                }
+            };
+
+            return (
+                <div className="portal" data-theme={theme}>
+                    <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={() => setSidebarOpen(false)} />
+                    <Sidebar view={view} goTo={goTo} counts={counts} open={sidebarOpen} onLogout={requestLogout} />
+
+                    <div className="portal-main">
+                        <header className="topbar">
+                            <button className="icon-btn menu-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu"><Icon name="menu" size={20} /></button>
+                            <div className="topbar-inst">
+                                <Icon name="building" size={15} />
+                                <span>ABESEC Ghaziabad</span>
                             </div>
-                        </>
-                    ) : (
-                        /* Post-Login Interactive Notice Board */
-                        <div className="feed-screen-wrapper">
-                            <div className="feed-top-nav">
-                                <div>
-                                    <h2>{currentDept.name} Portal</h2>
-                                    <p style={{ fontSize: '0.86rem', color: '#64748b', marginTop: '2px' }}>
-                                        Signed in as <strong>{email}</strong>
-                                    </p>
-                                </div>
-                                <button className="btn-signout" onClick={() => { setIsLoggedIn(false); setPassword(''); }}>
-                                    Sign Out
+                            <div className="search-box">
+                                <span className="s-icon"><Icon name="search" size={16} /></span>
+                                <input type="search" placeholder="Search notices by title or keyword…" value={query} onChange={(e) => handleSearch(e.target.value)} aria-label="Search notices" />
+                                {query && <button className="s-clear" onClick={() => setQuery('')} aria-label="Clear search"><Icon name="x" size={14} /></button>}
+                            </div>
+                            <div className="topbar-spacer" />
+                            <button className="icon-btn" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} title="Toggle dark / light mode" aria-label="Toggle theme">
+                                <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
+                            </button>
+                            <div className="notif-wrap" ref={notifRef}>
+                                <button className="icon-btn" onClick={() => setNotifOpen(o => !o)} aria-label="Notifications" title="Notifications">
+                                    <Icon name="bell" size={18} />
+                                    {notifications.length > 0 && <span className="bell-badge">{notifications.length > 9 ? '9+' : notifications.length}</span>}
                                 </button>
-                            </div>
-
-                            <div className="field-label-row" style={{ marginBottom: '10px' }}>
-                                <span className="field-label">Switch Department Feed</span>
-                            </div>
-                            <div className="dept-chips-container" style={{ marginBottom: '24px' }}>
-                                {DEPARTMENTS.map(d => {
-                                    const DeptIcon = d.Icon;
-                                    const isActive = selectedDept === d.id;
-                                    return (
-                                        <button
-                                            key={d.id}
-                                            type="button"
-                                            className={`dept-badge-btn ${isActive ? 'active' : ''}`}
-                                            onClick={() => setSelectedDept(d.id)}
-                                        >
-                                            <DeptIcon size={14} color={isActive ? "#ffffff" : "#475569"} />
-                                            {d.id}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            <div className="feed-grid">
-                                {currentNotices.length > 0 ? (
-                                    currentNotices.map(n => (
-                                        <div key={n.id} className="feed-single-card" onClick={() => alert(`"${n.title}"\n\n${n.desc}`)}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                                <span style={{ fontSize: '0.78rem', fontWeight: '700', color: '#2563eb' }}>
-                                                    {currentDept.id}
-                                                </span>
-                                                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{n.date}</span>
-                                            </div>
-                                            <h4 style={{ fontSize: '0.96rem', fontWeight: 700, color: '#0f172a', marginBottom: '6px' }}>
-                                                {n.title}
-                                            </h4>
-                                            <p style={{ fontSize: '0.84rem', color: '#64748b', lineHeight: 1.45 }}>
-                                                {n.desc}
-                                            </p>
+                                {notifOpen && (
+                                    <div className="notif-panel">
+                                        <div className="notif-head">
+                                            <h4>Notifications ({notifications.length})</h4>
+                                            {notifications.length > 0 && (
+                                                <button className="link-btn" onClick={() => { setUserData(u => ({ ...u, read: [...new Set([...u.read, ...notifications.map(n => n.id)])] })); showToast('All notifications marked as read'); }}>
+                                                    Mark all read
+                                                </button>
+                                            )}
                                         </div>
-                                    ))
-                                ) : (
-                                    <div style={{ textAlign: 'center', gridColumn: '1/-1', padding: '30px', color: '#94a3b8' }}>
-                                        No circulars found.
+                                        <div className="notif-list">
+                                            {notifications.length ? notifications.slice(0, 8).map(n => (
+                                                <div key={n.id} className="notif-item" onClick={() => openNotice(n.id)}>
+                                                    <div className={`notif-ico ${n.priority === 'High' ? 'high' : ''}`}><Icon name={n.priority === 'High' ? 'alert' : 'bell'} size={16} /></div>
+                                                    <div><h5>{n.title}</h5><span>{deptLabel(n.dept)} · {timeAgo(n.published)}</span></div>
+                                                </div>
+                                            )) : <EmptyState icon="check" title="You’re all caught up" text="No new notifications right now." />}
+                                        </div>
                                     </div>
                                 )}
                             </div>
+                            <button className="avatar-chip" onClick={() => goTo('profile')} aria-label="Open profile">
+                                <span className="avatar">{initials(user.name)}</span>
+                                <span className="nm nm-wrap">{user.name.split(' ')[0]}<span className="dp">{dept.id} · {user.role || 'Student'}</span></span>
+                            </button>
+                        </header>
+
+                        <main className="page" key={view}>
+                            {view !== 'dashboard' && <PageHeader title={meta[0]} subtitle={meta[1]} />}
+                            {renderView()}
+                        </main>
+
+                        <SiteFooter />
+                    </div>
+
+                    {modalNotice && <NoticeModal n={modalNotice} api={api} onClose={() => setModalId(null)} showToast={showToast} />}
+                    {confirm && <ConfirmDialog title={confirm.title} message={confirm.message} confirmLabel={confirm.confirmLabel} onConfirm={confirm.onConfirm} onCancel={() => setConfirm(null)} />}
+                    {toast && <div className="toast"><Icon name="check" size={15} /> {toast}</div>}
+                </div>
+            );
+        }
+
+        /* =====================================================================
+           EXISTING: App (auth screen) – original states and handlers preserved,
+           extended with real validation + localStorage accounts
+           ===================================================================== */
+        function App() {
+            // NEW: restore a saved session (if any) so a refresh keeps the user logged in
+            const [restoredUser] = useState(restoreSession);
+
+            const [mode, setMode] = useState('login'); // 'login' or 'signup'
+            const [selectedDept, setSelectedDept] = useState(restoredUser ? restoredUser.department : 'CSE');
+            const [email, setEmail] = useState(restoredUser ? restoredUser.email : '');
+            const [password, setPassword] = useState('');
+            const [fullName, setFullName] = useState('');
+            const [showPassword, setShowPassword] = useState(false);
+            const [isLoggedIn, setIsLoggedIn] = useState(!!restoredUser);
+
+            // NEW state
+            const [currentUser, setCurrentUser] = useState(restoredUser);
+            const [rememberMe, setRememberMe] = useState(true);
+            const [errors, setErrors] = useState({});
+
+            const currentDept = DEPARTMENTS.find(d => d.id === selectedDept) || DEPARTMENTS[0];
+
+            // Live count of active notices per department (replaces the static DEPARTMENTS.count on the chip label)
+            const deptCounts = useMemo(() => {
+                const list = storage.get(STORAGE_KEYS.notices, null) || buildSeedNotices();
+                const c = {};
+                list.forEach(n => { if (getStatus(n) !== 'Expired') c[n.dept] = (c[n.dept] || 0) + 1; });
+                return c;
+            }, []);
+            const activeCount = deptCounts[selectedDept] != null ? deptCounts[selectedDept] : currentDept.count;
+
+            // Portal uses a full-screen layout; the auth card keeps the original centered layout
+            useEffect(() => {
+                document.body.classList.toggle('portal-mode', isLoggedIn);
+            }, [isLoggedIn]);
+
+            const startSession = (user) => {
+                saveSession(user.email, rememberMe);
+                setCurrentUser(user);
+                setSelectedDept(user.department);
+                setEmail(user.email);
+                setPassword('');
+                setErrors({});
+                setIsLoggedIn(true);
+            };
+
+            const validate = () => {
+                const errs = {};
+                const em = email.trim().toLowerCase();
+                if (mode === 'signup') {
+                    if (fullName.trim().length < 2) errs.fullName = 'Please enter your full name.';
+                    else if (!/^[A-Za-z][A-Za-z .'-]+$/.test(fullName.trim())) errs.fullName = 'Name can only contain letters, spaces and . - \'';
+                }
+                if (!em) errs.email = 'Email address is required.';
+                else if (!EMAIL_RE.test(em)) errs.email = 'Enter a valid email address.';
+                if (!password) errs.password = 'Password is required.';
+                else if (mode === 'signup') {
+                    if (password.length < 6) errs.password = `Password is too short (${password.length}/6 characters). Use at least 6.`;
+                }
+                return errs;
+            };
+
+            const handleAuth = (e) => {
+                e.preventDefault();
+                const errs = validate();
+                setErrors(errs);
+                if (Object.keys(errs).length) return;
+
+                const em = email.trim().toLowerCase();
+                const users = ensureDefaultUsers();
+
+                if (mode === 'signup') {
+                    if (users.some(u => u.email === em)) {
+                        setErrors({ email: 'An account with this email already exists. Please sign in instead.' });
+                        return;
+                    }
+                    const newUser = {
+                        id: 'u_' + Date.now(), name: fullName.trim(), email: em, password, role: 'Student',
+                        department: selectedDept, year: '', phone: '', about: '', createdAt: new Date().toISOString()
+                    };
+                    storage.set(STORAGE_KEYS.users, [...users, newUser]);
+                    startSession(newUser);
+                } else {
+                    const found = users.find(u => u.email === em);
+                    if (!found) {
+                        setErrors({ email: 'No account found for this email. Please sign up first.' });
+                        return;
+                    }
+                    if (found.password !== password) {
+                        setErrors({ password: 'Incorrect password. Please try again.' });
+                        return;
+                    }
+                    startSession(found);
+                }
+            };
+
+            const handleFastSSO = (provider) => {
+                // Demo SSO: finds or creates a demo account so the user gets a real profile
+                const em = `student@${provider.toLowerCase()}.edu`;
+                const users = ensureDefaultUsers();
+                let user = users.find(u => u.email === em);
+                if (!user) {
+                    user = {
+                        id: 'u_' + Date.now(), name: `${provider} Demo Student`, email: em, password: 'password123', role: 'Student',
+                        department: selectedDept, year: '', phone: '', about: '', createdAt: new Date().toISOString()
+                    };
+                    storage.set(STORAGE_KEYS.users, [...users, user]);
+                }
+                setEmail(em);
+                setPassword('password123');
+                startSession(user);
+            };
+
+            const handleLogout = () => {
+                clearSession();
+                setIsLoggedIn(false);
+                setCurrentUser(null);
+                setPassword('');
+                setErrors({});
+                setMode('login');
+            };
+
+            const handleUpdateUser = (updates) => {
+                const updated = { ...currentUser, ...updates };
+                const users = ensureDefaultUsers();
+                storage.set(STORAGE_KEYS.users, users.map(u => (u.email === updated.email ? updated : u)));
+                setCurrentUser(updated);
+                if (updates.department) setSelectedDept(updates.department);
+            };
+
+            const switchMode = () => { setMode(mode === 'login' ? 'signup' : 'login'); setErrors({}); };
+
+            const onEmailChange = (value) => {
+                setEmail(value);
+                if (errors.email || errors.password) setErrors({});
+                if (mode === 'login') {
+                    // Auto-select the registered department chip for a known account
+                    const match = ensureDefaultUsers().find(u => u.email === value.trim().toLowerCase());
+                    if (match) setSelectedDept(match.department);
+                }
+            };
+
+            // Logged in -> full-screen portal (outside the auth card)
+            if (isLoggedIn && currentUser) {
+                return (
+                    <Portal key={currentUser.email} user={currentUser} selectedDept={selectedDept} setSelectedDept={setSelectedDept}
+                            onLogout={handleLogout} onUpdateUser={handleUpdateUser} />
+                );
+            }
+
+            return (
+                <div className="auth-shell">
+                    <div className="auth-wrapper">
+                        {/* LEFT SIDE: Clean Form Panel */}
+                        <div className="auth-form-side">
+                            <div>
+                                <header className="brand-bar">
+                                    <div className="brand-logo">
+                                        <div className="logo-symbol">N</div>
+                                        <div>
+                                            <span className="logo-text">NoticeHub</span>
+                                            <span className="inst-subtitle">ABESEC Ghaziabad</span>
+                                        </div>
+                                    </div>
+                                    <div className="live-tag">
+                                        <span className="live-dot"></span>
+                                        <span>Campus Live</span>
+                                    </div>
+                                </header>
+
+                                <div className="form-heading-area">
+                                    <h1>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h1>
+                                    <p>
+                                        {mode === 'login' 
+                                            ? 'Enter your institutional credentials to view circulars.'
+                                            : 'Register to access departmental announcements in real time.'}
+                                    </p>
+                                </div>
+
+                                {/* Direct Fast SSO */}
+                                <div className="sso-buttons">
+                                    <button 
+                                        type="button" 
+                                        className="sso-btn"
+                                        onClick={() => handleFastSSO('Google')}
+                                    >
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                                        </svg>
+                                        Google SSO
+                                    </button>
+                                    <button 
+                                        type="button" 
+                                        className="sso-btn"
+                                        onClick={() => handleFastSSO('Portal')}
+                                    >
+                                        <IconBuilding size={17} color="#2563eb" />
+                                        College Portal
+                                    </button>
+                                </div>
+
+                                <div className="divider">
+                                    <span>or continue with email</span>
+                                </div>
+
+                                {/* Department Chips with Inline SVG */}
+                                <div className="field-label-row">
+                                    <span className="field-label">Select Department</span>
+                                    <span style={{ fontSize: '0.78rem', color: '#2563eb', fontWeight: '700' }}>
+                                        {activeCount} circulars active
+                                    </span>
+                                </div>
+                                <div className="dept-chips-container">
+                                    {DEPARTMENTS.map(d => {
+                                        const DeptIcon = d.Icon;
+                                        const isActive = selectedDept === d.id;
+                                        return (
+                                            <button
+                                                key={d.id}
+                                                type="button"
+                                                className={`dept-badge-btn ${isActive ? 'active' : ''}`}
+                                                onClick={() => setSelectedDept(d.id)}
+                                            >
+                                                <DeptIcon size={14} color={isActive ? "#ffffff" : "#475569"} />
+                                                {d.id}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                <form onSubmit={handleAuth} noValidate>
+                                    {errors.form && (
+                                        <div className="auth-alert"><Icon name="alert" size={16} />{errors.form}</div>
+                                    )}
+
+                                    {mode === 'signup' && (
+                                        <div className="form-row">
+                                            <div className="field-label-row">
+                                                <span className="field-label">Full Name</span>
+                                            </div>
+                                            <div className="input-box">
+                                                <span className="input-icon">
+                                                    <IconUser size={17} color="#94a3b8" />
+                                                </span>
+                                                <input 
+                                                    type="text" 
+                                                    placeholder="Ayush Shukla" 
+                                                    className={errors.fullName ? 'has-error' : ''}
+                                                    value={fullName}
+                                                    onChange={(e) => { setFullName(e.target.value); if (errors.fullName) setErrors({ ...errors, fullName: undefined }); }}
+                                                    required 
+                                                />
+                                            </div>
+                                            {errors.fullName && <div className="field-error">{errors.fullName}</div>}
+                                        </div>
+                                    )}
+
+                                    <div className="form-row">
+                                        <div className="field-label-row">
+                                            <span className="field-label">Email Address</span>
+                                        </div>
+                                        <div className="input-box">
+                                            <span className="input-icon">
+                                                <IconMail size={17} color="#94a3b8" />
+                                            </span>
+                                            <input 
+                                                type="email" 
+                                                placeholder="student@abesec.ac.in" 
+                                                className={errors.email ? 'has-error' : ''}
+                                                value={email}
+                                                onChange={(e) => onEmailChange(e.target.value)}
+                                                required 
+                                            />
+                                        </div>
+                                        {errors.email && <div className="field-error">{errors.email}</div>}
+                                    </div>
+
+                                    <div className="form-row">
+                                        <div className="field-label-row">
+                                            <span className="field-label">Password</span>
+                                        </div>
+                                        <div className="input-box">
+                                            <span className="input-icon">
+                                                <IconLock size={17} color="#94a3b8" />
+                                            </span>
+                                            <input 
+                                                type={showPassword ? 'text' : 'password'} 
+                                                placeholder="••••••••" 
+                                                className={errors.password ? 'has-error' : ''}
+                                                value={password}
+                                                onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors({ ...errors, password: undefined }); }}
+                                                required 
+                                            />
+                                            <button 
+                                                type="button" 
+                                                className="show-pass-btn"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                {showPassword ? 'Hide' : 'Show'}
+                                            </button>
+                                        </div>
+                                        {errors.password && <div className="field-error">{errors.password}</div>}
+                                        {mode === 'signup' && !errors.password && <div className="field-hint">Minimum 6 characters.</div>}
+                                    </div>
+
+                                    {mode === 'login' && (
+                                        <div className="row-options">
+                                            <label>
+                                                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} /> Remember me
+                                            </label>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); alert('Password recovery link sent to your college email.'); }}>
+                                                Forgot password?
+                                            </a>
+                                        </div>
+                                    )}
+
+                                    <button type="submit" className="btn-submit-main" style={mode === 'signup' ? { marginTop: '22px' } : undefined}>
+                                        <span>{mode === 'login' ? `Enter ${selectedDept} Portal` : 'Create Account'}</span>
+                                        <span>→</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div className="form-bottom-link">
+                                {mode === 'login' ? "Don't have an account yet?" : "Already have an account?"}
+                                <button type="button" onClick={switchMode}>
+                                    {mode === 'login' ? 'Sign up' : 'Sign in'}
+                                </button>
+                            </div>
                         </div>
-                    )}
+
+                        {/* RIGHT SIDE: Clean Showcase Hero Panel */}
+                        <div className="auth-showcase-side">
+                            <div className="showcase-circle-1"></div>
+                            <div className="showcase-circle-2"></div>
+
+                            <div className="hero-top">
+                                <div className="hero-badge-pill">
+                                    <IconZap size={13} color="#ffffff" />
+                                    <span>ABESEC Ghaziabad · Live Campus Network</span>
+                                </div>
+                                <h2>Department-Wise<br/>Digital Notice Board</h2>
+                                <p>
+                                    Direct access to verified circulars, exam schedules, and placement updates across all campus branches.
+                                </p>
+                            </div>
+
+                            {/* Clean Feature Highlights with SVGs */}
+                            <div className="features-clean-panel">
+                                <div className="feature-item">
+                                    <div className="feature-icon-box">
+                                        <IconBuilding size={20} color="#ffffff" />
+                                    </div>
+                                    <div className="feature-text">
+                                        <h4>Department Categorization</h4>
+                                        <p>Filter announcements by branch (CSE, IT, ECE, ME, T&amp;P, EXAM) instantly.</p>
+                                    </div>
+                                </div>
+
+                                <div className="feature-item">
+                                    <div className="feature-icon-box">
+                                        <IconZap size={20} color="#ffffff" />
+                                    </div>
+                                    <div className="feature-text">
+                                        <h4>Real-Time Announcements</h4>
+                                        <p>Direct updates from Dean, Examination Cell, and Training &amp; Placement.</p>
+                                    </div>
+                                </div>
+
+                                <div className="feature-item">
+                                    <div className="feature-icon-box">
+                                        <IconDevice size={20} color="#ffffff" />
+                                    </div>
+                                    <div className="feature-text">
+                                        <h4>Zero Paper Wastage</h4>
+                                        <p>Eco-friendly, digital-first communication across all smart displays.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Bottom Social Proof */}
+                            <div className="showcase-footer">
+                                <div className="student-avatars">
+                                    <div className="avatar-circle">AS</div>
+                                    <div className="avatar-circle">RB</div>
+                                    <div className="avatar-circle">PS</div>
+                                    <div className="avatar-circle">+7</div>
+                                </div>
+                                <div className="avatar-info-text">
+                                    <strong>2,400+ Active</strong><br/>
+                                    Students &amp; Faculty Connected
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <SiteFooter />
                 </div>
             );
         }

@@ -1,72 +1,86 @@
-# 📌 Department-Wise Digital Notice Board (FSD)
+# 📌 Department-Wise Digital Notice Board (FSD) — ABESEC Ghaziabad
 
 [![React](https://img.shields.io/badge/React-18-blue.svg?logo=react)](https://react.dev/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg?logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Status](https://img.shields.io/badge/Status-Under%20Development-orange.svg)](#)
+[![Render](https://img.shields.io/badge/Deploy-Render%20Static%20Site-46E3B7?logo=render&logoColor=white)](https://department-wise-digital-notice-board-fsd.onrender.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A centralized, responsive, and interactive digital notice board web application designed for academic institutions. It enables departments to seamlessly publish, categorize, and display announcements, circulars, and notifications in real time for faculty and students.
+A centralized, responsive, and interactive **Department-Wise Digital Notice Board** web application built for **ABESEC Ghaziabad**. It enables departments to publish, categorize, search, bookmark, and display institutional announcements, exam timetables, academic calendars, and placement updates in real time.
+
+---
+
+## 🌐 Live Deployment (Render)
+
+- **Deployed Render URL:** [https://department-wise-digital-notice-board-fsd.onrender.com](https://department-wise-digital-notice-board-fsd.onrender.com)
+
+---
+
+## 🔐 User Login Credentials
+
+All demo user roles below are pre-configured and ready to use on the portal:
+
+| Role | Username (Email) | Password | Department |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `admin@abesec.ac.in` | `Admin@123` | CSE |
+| **Student** | `student@abesec.ac.in` | `Student@123` | CSE |
+| **Student (Google SSO)** | `student@google.edu` | `password123` | Selected Dept |
+| **Student (College Portal SSO)** | `student@portal.edu` | `password123` | Selected Dept |
+
+### Credentials by Role
+
+- **Admin Role**
+  - **Admin Username:** `admin@abesec.ac.in`
+  - **Admin Password:** `Admin@123`
+- **Student Role**
+  - **Student Username:** `student@abesec.ac.in`
+  - **Student Password:** `Student@123`
+- **Quick SSO Demo Accounts**
+  - Click **Google SSO** (`student@google.edu` / `password123`) or **College Portal** (`student@portal.edu` / `password123`) on the login screen for one-click access.
+  - New users can also register via the **Sign up** toggle on the login page.
 
 ---
 
 ## 📖 Table of Contents
 
+- [Live Deployment (Render)](#-live-deployment-render)
+- [User Login Credentials](#-user-login-credentials)
 - [Overview](#-overview)
-- [Problem Statement](#-problem-statement)
 - [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
-- [Roadmap & Planned Features](#-roadmap--planned-features)
-- [Contributing](#-contributing)
-- [Author & Acknowledgments](#-author--acknowledgments)
+- [Deploying on Render](#-deploying-on-render)
+- [Team & Institution](#-team--institution)
+- [License](#-license)
 
 ---
 
 ## 🌟 Overview
 
-The **Department-Wise Digital Notice Board** is a Full-Stack Development (FSD) project engineered to modernize campus communication. In colleges and universities, physical notice boards are often cluttered, inefficient, and inaccessible remotely. This web platform provides a clean, role-based, department-filtered digital hub where students and faculty can view verified institutional notices anytime, anywhere.
-
----
-
-## 🎯 Problem Statement
-
-- **Cluttered Physical Boards**: Notices overlap, get torn, or go unnoticed.
-- **Lack of Departmental Categorization**: Students must sift through general circulars to find branch-specific announcements (e.g., CSE vs. Mechanical lab schedules).
-- **Delayed Information**: Urgent circulars (exam postponements, placement drives) fail to reach students promptly.
-- **Paper Wastage**: High recurring printing and manual labor costs.
+The **Department-Wise Digital Notice Board** is a Full-Stack Development (FSD) project engineered for **ABESEC Ghaziabad** to modernize campus communication. In colleges and universities, physical notice boards are often cluttered, inefficient, and inaccessible remotely. This web platform provides a clean, role-aware, department-filtered digital hub where students and faculty can view verified institutional notices anytime, anywhere.
 
 ---
 
 ## 🚀 Key Features
 
-- 🏢 **Department-Wise Segmentation**: Filter notices by Computer Science (CSE), Information Technology (IT), Electronics (ECE), Mechanical (ME), Civil, Management, Examination Cell, and Training & Placement (T&P).
-- 🔐 **Role-Based Access Control (RBAC)**:
-  - **Admin**: Manage departments, users, approve circulars, and monitor platform logs.
-  - **Department Coordinator / Faculty**: Draft, publish, edit, and schedule departmental circulars.
-  - **Student / Guest**: Browse, search, filter, and download verified notices.
-- ⚡ **Priority Alerts & Urgent Banner**: Highlight critical notifications (exams, placement drives, emergency holidays) at the top of the feed.
-- 📺 **Digital Kiosk / TV Display Mode**: Fullscreen optimized view with auto-scrolling tickers designed for smart TVs in campus corridors and departmental lobbies.
-- 🔍 **Instant Search & Filtering**: Real-time filtering by department, date range, priority, and keywords.
-- 📱 **Responsive & Accessible Design**: Optimized for smart TVs, desktop browsers, tablets, and smartphones.
+- 🏢 **Department-Wise Segmentation**: Filter notices across **CSE**, **IT**, **ECE**, **ME**, **Training & Placement (T&P)**, and **Exam Cell (EXAM)**.
+- 🔐 **Multi-Role Authentication**: Supports pre-seeded **Admin** and **Student** accounts, **Sign Up**, **Remember Me** session persistence, and one-click **SSO** demo login.
+- 📊 **Interactive Dashboard & Portal**: Overview stats (total, unread, upcoming events, saved), pinned/important highlights, and real-time notification bell.
+- 📅 **Exam Timetable & Academic Calendar**: Dedicated tabs for exam schedules and an interactive monthly academic calendar with event & deadline markers.
+- 🔖 **Bookmarks, Read Status & Dark Mode**: Save notices, mark read/unread, compact view toggle, and light/dark theme persistence via `localStorage`.
+- 🔍 **Instant Search & Filtering**: Filter by department, category, read status, tags, and sort order.
+- 📱 **Responsive Design**: Works across desktops, tablets, and mobile screens.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend (Current):
-- **React 18** (Standalone CDN setup with Babel transpiler)
+- **React 18** (Standalone CDN setup with Babel JSX transpiler)
 - **HTML5** & semantic markup
-- **CSS3** & Flexbox / Grid for responsive layouts
-- **JavaScript (ES6+)** for asynchronous operations and state management
-
-### Backend & Database (Planned Architecture):
-- **Node.js** & **Express.js** (REST API)
-- **MongoDB** / **PostgreSQL** for persistent document & user storage
-- **JWT (JSON Web Tokens)** / **Bcrypt** for secure authentication and authorization
-- **Multer / Cloud Storage** for notice attachment handling (PDF circulars, images)
+- **CSS3** (Custom properties, Flexbox, CSS Grid, light/dark themes)
+- **JavaScript (ES6+)** with `localStorage` & `sessionStorage` state persistence
 
 ---
 
@@ -75,9 +89,9 @@ The **Department-Wise Digital Notice Board** is a Full-Stack Development (FSD) p
 ```text
 Department-Wise-Digital-Notice-Board_FSD/
 ├── .gitignore              # Files and directories ignored by Git
-├── index.html              # Main frontend entry point & React components
-├── README.md               # Project documentation and guide
-└── ...
+├── index.html              # Main frontend entry point, styles, and React components
+├── render.yaml             # Render Static Site Blueprint configuration
+└── README.md               # Project documentation, deployment URL, and login credentials
 ```
 
 ---
@@ -97,42 +111,40 @@ All you need is a modern web browser (Google Chrome, Microsoft Edge, Mozilla Fir
    ```
 
 2. **Open the project:**
-   - Double-click `index.html` to open it directly in your browser.
-   - Or use VS Code with the **Live Server** extension: right-click `index.html` and select **"Open with Live Server"**.
+   - Double-click `index.html` to open it directly in your browser, or
+   - Serve locally with any static server (e.g., `npx serve .` or VS Code **Live Server**).
 
 ---
 
-## 🔮 Roadmap & Planned Features
+## ☁️ Deploying on Render
 
-- [ ] Complete responsive UI with department switcher sidebar.
-- [ ] Implement backend RESTful API endpoints with Node.js and Express.
-- [ ] Connect database (MongoDB/Mongoose) for dynamic notice creation and retrieval.
-- [ ] Add PDF attachment previews and image download support.
-- [ ] Push notifications and email alerts for high-priority circulars.
-- [ ] Campus Kiosk mode with auto-refresh and rotating banner.
+This repository includes a [`render.yaml`](render.yaml) Blueprint configured for Render Static Site hosting:
 
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Log in to [Render](https://dashboard.render.com/) and click **New +** → **Static Site** (or **Blueprint**).
+2. Connect the GitHub repository `Ayush-Shukla007/Department-Wise-Digital-Notice-Board_FSD` (`main` branch).
+3. Use these settings:
+   - **Name:** `department-wise-digital-notice-board-fsd`
+   - **Build Command:** *(leave blank)*
+   - **Publish Directory:** `.`
+4. Click **Create Static Site** — your site will go live at `https://department-wise-digital-notice-board-fsd.onrender.com`.
 
 ---
 
-## 👤 Author & Acknowledgments
+## 👥 Team & Institution
 
-- **Ayush Shukla**
-  - GitHub: [@Ayush-Shukla007](https://github.com/Ayush-Shukla007)
-  - Project Repository: [Department-Wise-Digital-Notice-Board_FSD](https://github.com/Ayush-Shukla007/Department-Wise-Digital-Notice-Board_FSD)
+- **Institution:** ABESEC Ghaziabad
+- **Developed & Maintained By:**
+  - **Ayush Shukla** — Roll No: `2400320100353` (CSE) | GitHub: [@Ayush-Shukla007](https://github.com/Ayush-Shukla007)
+  - **Riya Baliyaan** — Roll No: `2400320310143` (ECE)
+- **Team:** Full Stack Development Team
+- **Project Repository:** [Department-Wise-Digital-Notice-Board_FSD](https://github.com/Ayush-Shukla007/Department-Wise-Digital-Notice-Board_FSD)
 
 ---
 
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+© 2026 ABESEC Ghaziabad. All Rights Reserved.
