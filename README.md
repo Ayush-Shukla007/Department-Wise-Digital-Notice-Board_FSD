@@ -91,8 +91,11 @@ Department-Wise-Digital-Notice-Board_FSD/
 ├── .gitignore              # Files and directories ignored by Git
 ├── index.html              # Main frontend entry point, styles, and React components
 ├── render.yaml             # Render Static Site Blueprint configuration
+├── SYSTEM_DESIGN.md        # System Design Document (architecture, components, schema)
 └── README.md               # Project documentation, deployment URL, and login credentials
 ```
+
+- 📘 **System Design Document:** See [`SYSTEM_DESIGN.md`](SYSTEM_DESIGN.md) for architecture diagrams, component breakdown, client storage schema, and authentication/visibility logic.
 
 ---
 
